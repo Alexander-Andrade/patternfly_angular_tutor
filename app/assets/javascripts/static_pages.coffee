@@ -39,6 +39,13 @@ resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
         $scope.hours_total = 60;
       )
     ), 3000
+
+    setTimeout ( ->
+      $scope.$apply(->
+        $scope.svm_reserved_perc = 80;
+        $scope.svm_used_perc = 90;
+      )
+    ), 4000
 ]);
 
 $ ->
