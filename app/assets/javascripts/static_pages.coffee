@@ -15,4 +15,10 @@ resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
     $scope.hours_used_perc = 30;
     $scope.hours_reserved = 40;
     $scope.hours_total = 50;
+
+    $scope.svmBarClicked = ->
+      alert 'svm bar clicked'
 ]);
+
+$ ->
+  $('[data-toggle="tooltip"]').tooltip()
