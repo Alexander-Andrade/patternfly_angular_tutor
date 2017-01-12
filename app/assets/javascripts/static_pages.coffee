@@ -18,6 +18,27 @@ resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
 
     $scope.svmBarClicked = ->
       alert 'svm bar clicked'
+
+    setTimeout ( ->
+      $scope.$apply(->
+        $scope.storage_reserved = 70
+      )
+    ), 1000
+
+    setTimeout ( ->
+      $scope.$apply(->
+        $scope.svm_used_perc = 5
+      )
+    ), 2000
+
+    setTimeout ( ->
+      $scope.$apply(->
+        $scope.hours_reserved_perc = 90;
+        $scope.hours_used_perc = 50;
+        $scope.hours_reserved = 45;
+        $scope.hours_total = 60;
+      )
+    ), 3000
 ]);
 
 $ ->
