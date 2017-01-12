@@ -21,13 +21,13 @@ resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
 
     setTimeout ( ->
       $scope.$apply(->
-        $scope.storage_reserved = 70
+        $scope.svm_reserved = 150
       )
     ), 1000
 
     setTimeout ( ->
       $scope.$apply(->
-        $scope.svm_used_perc = 5
+        $scope.storage_used_perc = 5
       )
     ), 2000
 

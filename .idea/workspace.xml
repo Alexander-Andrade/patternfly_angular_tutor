@@ -56,8 +56,8 @@
       <file leaf-file-name="static_pages.coffee" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/static_pages.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="657">
-              <caret line="38" column="21" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
+            <state relative-caret-position="736">
+              <caret line="29" column="32" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -589,12 +589,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1484214550125</updated>
-      <workItem from="1484214552192" duration="5298000" />
+      <workItem from="1484214552192" duration="5486000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5298000" />
+    <option name="totallyTimeSpent" value="5486000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
@@ -695,8 +695,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/static_pages.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="38" column="21" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
+        <state relative-caret-position="736">
+          <caret line="29" column="32" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
           <folding />
         </state>
       </provider>
