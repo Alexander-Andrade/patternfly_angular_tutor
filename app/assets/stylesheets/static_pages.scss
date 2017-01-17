@@ -7,6 +7,23 @@
   border-bottom-left-radius: 2px;
 }
 
-.subbar-warning {
-  background-color: #c00;
+.brd{
+  border: solid #d1d1d1;
+  border-width: thin;
+  padding: 1px;
+}
+
+.card-bottom-offset{
+  margin-bottom: 40px;
+}
+
+
+.table_td td {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 20%;
+  text-align: center;
+  white-space: normal;
 }
