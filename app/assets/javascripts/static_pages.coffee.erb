@@ -4,7 +4,10 @@ resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
     $scope.locations = [
       {
         name: 'Location1',
-
+        price: {
+          current: 10,
+          next: 25
+        },
         svm: {
           reserved_perc: 80,
           used_perc: 30,
@@ -26,7 +29,10 @@ resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
       },
       {
         name: 'Location2',
-
+        price: {
+          current: 10,
+          next: 10
+        },
         svm: {
           reserved_perc: 90,
           used_perc: 40,
@@ -56,6 +62,10 @@ resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
 #    replace: true
 #  }
 #)
+
+$('#myModal').on('shown.bs.modal', ->
+  $('#myInput').focus()
+)
 
 $ ->
   $('[data-toggle="tooltip"]').tooltip()
