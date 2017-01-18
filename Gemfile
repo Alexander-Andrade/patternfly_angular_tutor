@@ -37,6 +37,8 @@ gem 'jbuilder', '~> 2.5'
 
 # Angular
 gem 'angularjs-rails'
+# templates for directives
+gem 'angular-rails-templates'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

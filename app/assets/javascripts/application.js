@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require angular
+//= require angular-rails-templates
+//= require_tree ./templates
 //= require patternfly
 //= require turbolinks
 //= require_tree .

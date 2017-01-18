@@ -1,4 +1,4 @@
-resourceApp = angular.module('resource', ['patternfly.charts','patternfly.card']);
+resourceApp = angular.module('resource', ['patternfly.charts','patternfly.card','templates']);
 
 resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
     $scope.locations = [
@@ -55,13 +55,18 @@ resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
     ]
 ]);
 
-#resourceApp.directive('barChart', ->
-#  return {
-#    restrict: 'AE',
-#    templateUrl: "<%= asset_path('views/static_pages/bar_chart.html') %>",
-#    replace: true
-#  }
-#)
+resourceApp.directive('resourcesCard', ->
+  return {
+    restrict: 'AE',
+    templateUrl: '_resources_card.html',
+    replace: true,
+    scope: {
+      location: '='
+    }
+  }
+)
+
+
 
 $('#myModal').on('shown.bs.modal', ->
   $('#myInput').focus()
