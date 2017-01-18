@@ -1,75 +1,6 @@
 <div ng-controller="ResourceCtrl">
-    <div class="cards-pf">
-      <div class="container-fluid container-cards-pf">
 
-          <h1 class="text-center">Director</h1>
-          <hr>
-            <div class="col-md-10 col-md-offset-1">
-              <div ng-repeat="location in locations">
-                <div class="row row-cards-pf">
-
-                  <div class="card-pf card-bottom-offset" style="margin-bottom:40px">
-                    <div class="card-pf-heading">
-                      <div class="row">
-                        <div class="col-xs-6">
-                          <h1 class="card-pf-title">{{location.name}}</h1>
-                        </div>
-                        <div class="col-xs-6 text-right">
-                          <span class="card-pf-aggregate-status-notifications">
-                            <span class="card-pf-aggregate-status-notification "><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{location.price.current}}</span></span>
-                            <span class="card-pf-aggregate-status-notification"><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{location.price.next}}</span></span>
-                          </span>
-                        </div>
-                      </div>
-
-                    </div>
-                      <div class="card-pf-body">
-
-                          <div class="progress-description">
-                            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">SVM</button>
-
-                          </div>
-                          <div class="progress progress-label-top-right">
-                              <div class="progress-bar" ng-click="svmBarClicked()">
-                                <div class="subbar" style="width: {{location.svm.reserved_perc}}%; background-color: #f39d3c; opacity: 0.4;" title="{{location.svm.reserved_perc}}%"></div>
-                                <div class="subbar" style="width: {{location.svm.used_perc}}%; background-color:#ec7a08;  opacity: 0.4;" title="{{location.svm.used_perc}}%"></div>
-                                <span><strong>{{location.svm.reserved}} from {{location.svm.total}}</strong> Used</span>
-                              </div>
-                          </div>
-
-
-                          <div class="progress-description">
-                            Storage
-                          </div>
-                          <div class="progress progress-label-top-right">
-                              <div class="progress-bar">
-                                <div class="subbar" style="width: {{location.storage.reserved_perc}}%; background-color: #ace12e;opacity: 0.4;"  title="{{location.storage.reserved_perc}}%"></div>
-                                <div class="subbar" style="width: {{location.storage.used_perc}}%; background-color:#92d400;  opacity: 0.4;" title="{{location.storage.used_perc}}%"></div>
-                                <span><strong>{{location.storage.reserved}} from {{location.storage.total}} GB</strong> Used</span>
-                              </div>
-                          </div>
-
-
-                          <div class="progress-description">
-                            Hours
-                          </div>
-                          <div class="progress progress-label-top-right">
-                              <div class="progress-bar">
-                                <div class="subbar" style="width: {{location.hours.reserved_perc}}%; background-color: #3a9ca6;opacity: 0.4;" title="{{location.hours.reserved_perc}}%"></div>
-                                <div class="subbar" style="width: {{location.hours.used_perc}}%; background-color: #007a87;  opacity: 0.4;" title="{{location.hours.used_perc}}%"></div>
-                                <span><strong>{{location.hours.reserved}} from {{location.hours.total}} K</strong> Used</span>
-                              </div>
-                          </div>
-
-                      </div>
-                  </div>
-              </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <!--Modal-->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width : 800px" class="modal-dialog"  >
       <div class="modal-content">
@@ -93,4 +24,143 @@
       </div>
     </div>
   </div>
+
+
+    <div class="cards-pf">
+      <div class="container-fluid container-cards-pf">
+
+          <h1 class="text-center">Director</h1>
+          <hr>
+            <!--<div class="col-md-10 col-md-offset-1">-->
+              <div ng-repeat="location in locations" class="row row-cards-pf" ng-if="$index % 2 == 0">
+
+
+                <!--<div class="row row-cards-pf">-->
+                  <div class="col-xs-6">
+
+                  <div class="card-pf card-bottom-offset" style="margin-bottom:40px">
+                    <div class="card-pf-heading">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <h1 class="card-pf-title">{{locations[$index].name}}</h1>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                          <span class="card-pf-aggregate-status-notifications">
+                            <span class="card-pf-aggregate-status-notification "><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{locations[$index].price.current}}</span></span>
+                            <span class="card-pf-aggregate-status-notification"><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{locations[$index].price.next}}</span></span>
+                          </span>
+                        </div>
+                      </div>
+
+                    </div>
+                      <div class="card-pf-body">
+
+                          <div class="progress-description">
+                            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">SVM</button>
+
+                          </div>
+                          <div class="progress progress-label-top-right">
+                              <div class="progress-bar" ng-click="svmBarClicked()">
+                                <div class="subbar" style="width: {{locations[$index].svm.reserved_perc}}%; background-color: #f39d3c; opacity: 0.4;" title="{{locations[$index].svm.reserved_perc}}%"></div>
+                                <div class="subbar" style="width: {{locations[$index].svm.used_perc}}%; background-color:#ec7a08;  opacity: 0.4;" title="{{locations[$index].svm.used_perc}}%"></div>
+                                <span><strong>{{locations[$index].svm.reserved}} from {{locations[$index].svm.total}}</strong> Used</span>
+                              </div>
+                          </div>
+
+
+                          <div class="progress-description">
+                            Storage
+                          </div>
+                          <div class="progress progress-label-top-right">
+                              <div class="progress-bar">
+                                <div class="subbar" style="width: {{locations[$index].storage.reserved_perc}}%; background-color: #ace12e;opacity: 0.4;"  title="{{locations[$index].storage.reserved_perc}}%"></div>
+                                <div class="subbar" style="width: {{locations[$index].storage.used_perc}}%; background-color:#92d400;  opacity: 0.4;" title="{{locations[$index].storage.used_perc}}%"></div>
+                                <span><strong>{{locations[$index].storage.reserved}} from {{locations[$index].storage.total}} GB</strong> Used</span>
+                              </div>
+                          </div>
+
+
+                          <div class="progress-description">
+                            Hours
+                          </div>
+                          <div class="progress progress-label-top-right">
+                              <div class="progress-bar">
+                                <div class="subbar" style="width: {{locations[$index].hours.reserved_perc}}%; background-color: #3a9ca6;opacity: 0.4;" title="{{locations[$index].hours.reserved_perc}}%"></div>
+                                <div class="subbar" style="width: {{locations[$index].hours.used_perc}}%; background-color: #007a87;  opacity: 0.4;" title="{{locations[$index].hours.used_perc}}%"></div>
+                                <span><strong>{{locations[$index].hours.reserved}} from {{locations[$index].hours.total}} K</strong> Used</span>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+
+
+                <!--</div>-->
+
+
+              <div class="col-xs-6">
+
+                <div class="card-pf card-bottom-offset" style="margin-bottom:40px">
+                  <div class="card-pf-heading">
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <h1 class="card-pf-title">{{locations[$index+1].name}}</h1>
+                      </div>
+                      <div class="col-xs-6 text-right">
+                        <span class="card-pf-aggregate-status-notifications">
+                          <span class="card-pf-aggregate-status-notification "><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{locations[$index+1].price.current}}</span></span>
+                          <span class="card-pf-aggregate-status-notification"><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{locations[$index+1].price.next}}</span></span>
+                        </span>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="card-pf-body">
+
+                    <div class="progress-description">
+                      <button class="btn btn-default" data-toggle="modal" data-target="#myModal">SVM</button>
+
+                    </div>
+                    <div class="progress progress-label-top-right">
+                      <div class="progress-bar" ng-click="svmBarClicked()">
+                        <div class="subbar" style="width: {{locations[$index+1].svm.reserved_perc}}%; background-color: #f39d3c; opacity: 0.4;" title="{{locations[$index+1].svm.reserved_perc}}%"></div>
+                        <div class="subbar" style="width: {{locations[$index+1].svm.used_perc}}%; background-color:#ec7a08;  opacity: 0.4;" title="{{locations[$index+1].svm.used_perc}}%"></div>
+                        <span><strong>{{locations[$index+1].svm.reserved}} from {{locations[$index+1].svm.total}}</strong> Used</span>
+                      </div>
+                    </div>
+
+
+                    <div class="progress-description">
+                      Storage
+                    </div>
+                    <div class="progress progress-label-top-right">
+                      <div class="progress-bar">
+                        <div class="subbar" style="width: {{locations[$index+1].storage.reserved_perc}}%; background-color: #ace12e;opacity: 0.4;"  title="{{locations[$index+1].storage.reserved_perc}}%"></div>
+                        <div class="subbar" style="width: {{locations[$index+1].storage.used_perc}}%; background-color:#92d400;  opacity: 0.4;" title="{{locations[$index+1].storage.used_perc}}%"></div>
+                        <span><strong>{{locations[$index+1].storage.reserved}} from {{locations[$index+1].storage.total}} GB</strong> Used</span>
+                      </div>
+                    </div>
+
+
+                    <div class="progress-description">
+                      Hours
+                    </div>
+                    <div class="progress progress-label-top-right">
+                      <div class="progress-bar">
+                        <div class="subbar" style="width: {{locations[$index+1].hours.reserved_perc}}%; background-color: #3a9ca6;opacity: 0.4;" title="{{locations[$index+1].hours.reserved_perc}}%"></div>
+                        <div class="subbar" style="width: {{locations[$index+1].hours.used_perc}}%; background-color: #007a87;  opacity: 0.4;" title="{{locations[$index+1].hours.used_perc}}%"></div>
+                        <span><strong>{{locations[$index+1].hours.reserved}} from {{locations[$index+1].hours.total}} K</strong> Used</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+          </div>
+        <!--</div>-->
+      </div>
+    </div>
 </div>
