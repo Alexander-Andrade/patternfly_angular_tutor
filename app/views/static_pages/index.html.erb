@@ -34,11 +34,13 @@
 
               <div ng-repeat="location in locations" class="row row-cards-pf" ng-if="$index % 2 == 0">
                 <div class="col-xs-6">
-                    <div resources-card location="locations[$index]"></div>
+                    <div resources-card title="{{locations[$index].name}}" price="locations[$index].price" progress-data1="locations[$index].svm"
+                         progress-data2="locations[$index].storage" progress-data3="locations[$index].hours"></div>
                 </div>
                 <div ng-if="!$last">
                   <div class="col-xs-6">
-                    <div resources-card location="locations[$index+1]"></div>
+                    <div resources-card title="{{locations[$index+1].name}}" price="locations[$index+1].price" progress-data1="locations[$index+1].svm"
+                         progress-data2="locations[$index+1].storage" progress-data3="locations[$index+1].hours"></div>
                   </div>
                 </div>
           </div>

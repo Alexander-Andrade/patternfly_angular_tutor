@@ -2,12 +2,12 @@
     <div class="card-pf-heading">
         <div class="row">
             <div class="col-xs-6">
-                <h1 class="card-pf-title">{{location.name}}</h1>
+                <h1 class="card-pf-title">{{title}}</h1>
             </div>
             <div class="col-xs-6 text-right">
                           <span class="card-pf-aggregate-status-notifications">
-                            <span class="card-pf-aggregate-status-notification "><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{location.price.current}}</span></span>
-                            <span class="card-pf-aggregate-status-notification"><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{location.price.next}}</span></span>
+                            <span class="card-pf-aggregate-status-notification "><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{price.current}}</span></span>
+                            <span class="card-pf-aggregate-status-notification"><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{price.next}}</span></span>
                           </span>
             </div>
         </div>
@@ -15,39 +15,39 @@
     </div>
     <div class="card-pf-body">
 
-        <div class="progress-description"><i class="fa fa-square-o" aria-hidden="true"></i>
-            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">SVM</button>
+        <div class="progress-description"><i class="pficon pficon-image" aria-hidden="true"></i>
+            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">{{progressData1.title}}</button>
 
         </div>
         <div class="progress progress-label-top-right">
             <div class="progress-bar" ng-click="svmBarClicked()">
-                <div class="subbar" style="width: {{location.svm.reserved_perc}}%; background-color: #f39d3c ; opacity: 0.4;" title="{{location.svm.reserved_perc}}%"></div>
-                <div class="subbar" style="width: {{location.svm.used_perc}}%; background-color:#ec7a08 ;  opacity: 0.4;" title="{{location.svm.used_perc}}%"></div>
-                <span><strong>{{location.svm.reserved}} from {{location.svm.total}}</strong> Used</span>
+                <div class="subbar" style="width: {{progressData1.reserved_perc}}%; background-color: #f39d3c ; opacity: 0.4;" title="{{progressData1.reserved_perc}}%"></div>
+                <div class="subbar" style="width: {{progressData1.used_perc}}%; background-color:#ec7a08 ;  opacity: 0.4;" title="{{progressData1.used_perc}}%"></div>
+                <span><strong>{{progressData1.reserved}} from {{progressData1.total}}</strong> Used</span>
             </div>
         </div>
 
 
         <div class="progress-description"><i class="fa fa-server" aria-hidden="true"></i>
-            Storage
+            {{progressData2.title}}
         </div>
         <div class="progress progress-label-top-right">
             <div class="progress-bar">
-                <div class="subbar" style="width: {{location.storage.reserved_perc}}%; background-color: #ace12e ;opacity: 0.4;"  title="{{location.storage.reserved_perc}}%"></div>
-                <div class="subbar" style="width: {{location.storage.used_perc}}%; background-color:#92d400 ;  opacity: 0.4;" title="{{location.storage.used_perc}}%"></div>
-                <span><strong>{{location.storage.reserved}} from {{location.storage.total}} GB</strong> Used</span>
+                <div class="subbar" style="width: {{progressData2.reserved_perc}}%; background-color: #ace12e ;opacity: 0.4;"  title="{{progressData2.reserved_perc}}%"></div>
+                <div class="subbar" style="width: {{progressData2.used_perc}}%; background-color:#92d400 ;  opacity: 0.4;" title="{{progressData2.used_perc}}%"></div>
+                <span><strong>{{progressData2.reserved}} from {{progressData2.total}} GB</strong> Used</span>
             </div>
         </div>
 
 
         <div class="progress-description"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-            Hours
+            {{progressData3.title}}
         </div>
         <div class="progress progress-label-top-right">
             <div class="progress-bar">
-                <div class="subbar" style="width: {{location.hours.reserved_perc}}%; background-color: #3a9ca6 ;opacity: 0.4;" title="{{location.hours.reserved_perc}}%"></div>
-                <div class="subbar" style="width: {{location.hours.used_perc}}%; background-color: #007a87 ;  opacity: 0.4;" title="{{location.hours.used_perc}}%"></div>
-                <span><strong>{{location.hours.reserved}} from {{location.hours.total}} K</strong> Used</span>
+                <div class="subbar" style="width: {{progressData3.reserved_perc}}%; background-color: #3a9ca6 ;opacity: 0.4;" title="{{progressData3.reserved_perc}}%"></div>
+                <div class="subbar" style="width: {{progressData3.used_perc}}%; background-color: #007a87 ;  opacity: 0.4;" title="{{progressData3.used_perc}}%"></div>
+                <span><strong>{{progressData3.reserved}} from {{progressData3.total}} K</strong> Used</span>
             </div>
         </div>
 
