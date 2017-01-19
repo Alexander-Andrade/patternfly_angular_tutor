@@ -57,6 +57,34 @@ resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
           reserved: 40,
           total: 50,
         }
+      },
+      {
+        name: 'Location3',
+        price: {
+          current: 10,
+          next: 25
+        },
+        svm: {
+          title: 'SVM',
+          reserved_perc: 80,
+          used_perc: 30,
+          reserved: 200,
+          total: 230,
+        },
+        storage: {
+          title: 'Storage',
+          reserved_perc: 95,
+          used_perc: 60,
+          reserved: 10,
+          total: 15,
+        },
+        hours: {
+          title: 'Hours',
+          reserved_perc: 100,
+          used_perc: 30,
+          reserved: 44,
+          total: 50,
+        }
       }
     ]
 ]);

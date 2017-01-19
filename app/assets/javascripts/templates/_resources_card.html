@@ -16,11 +16,10 @@
     <div class="card-pf-body">
 
         <div class="progress-description"><i class="pficon pficon-image" aria-hidden="true"></i>
-            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">{{progressData1.title}}</button>
-
+            {{progressData1.title}}
         </div>
         <div class="progress progress-label-top-right">
-            <div class="progress-bar" ng-click="svmBarClicked()">
+            <div class="progress-bar" data-toggle="modal" data-target="#myModal">
                 <div class="subbar" style="width: {{progressData1.reserved_perc}}%; background-color: #f39d3c ; opacity: 0.4;" title="{{progressData1.reserved_perc}}%"></div>
                 <div class="subbar" style="width: {{progressData1.used_perc}}%; background-color:#ec7a08 ;  opacity: 0.4;" title="{{progressData1.used_perc}}%"></div>
                 <span><strong>{{progressData1.reserved}} from {{progressData1.total}}</strong> Used</span>
