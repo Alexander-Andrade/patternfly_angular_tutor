@@ -1,109 +1,171 @@
 resourceApp = angular.module('resource', ['patternfly.charts','patternfly.card','templates']);
 
-resourceApp.controller('ResourceCtrl', ['$scope',($scope) ->
-    $scope.locations = [
+resourceApp.service('resources', ->
+  this.
+  this.resourcesRoot = {
+    name: 'Home...',
+    price: {
+      current: 3000,
+      next: 6000
+    },
+    resources: [
+      svm: {
+        title: 'SVM',
+        reserved_perc: 80,
+        used_perc: 30,
+        reserved: 200,
+        total: 230
+      },
+      storage: {
+        title: 'Storage',
+        reserved_perc: 90,
+        used_perc: 60,
+        reserved: 10,
+        total: 15
+      },
+      hours: {
+        title: 'Hours',
+        reserved_perc: 100,
+        used_perc: 30,
+        reserved: 40,
+        total: 50
+      },
+    ],
+    locations: [
       {
         name: 'Location1',
         price: {
           current: 10,
           next: 25
         },
-        svm: {
-          title: 'SVM',
-          reserved_perc: 80,
-          used_perc: 30,
-          reserved: 200,
-          total: 230,
-        },
-        storage: {
-          title: 'Storage',
-          reserved_perc: 90,
-          used_perc: 60,
-          reserved: 10,
-          total: 15,
-        },
-        hours: {
-        title: 'Hours',
-        reserved_perc: 100,
-        used_perc: 30,
-        reserved: 40,
-        total: 50,
-        }
-      },
-      {
-        name: 'Location2',
-        price: {
-          current: 10,
-          next: 25
-        },
-        svm: {
-          title: 'SVM',
-          reserved_perc: 80,
-          used_perc: 30,
-          reserved: 200,
-          total: 230,
-        },
-        storage: {
-          title: 'Storage',
-          reserved_perc: 90,
-          used_perc: 60,
-          reserved: 10,
-          total: 15,
-        },
-        hours: {
-          title: 'Hours',
-          reserved_perc: 100,
-          used_perc: 30,
-          reserved: 40,
-          total: 50,
-        }
-      },
-      {
-        name: 'Location3',
-        price: {
-          current: 10,
-          next: 25
-        },
-        svm: {
-          title: 'SVM',
-          reserved_perc: 80,
-          used_perc: 30,
-          reserved: 200,
-          total: 230,
-        },
-        storage: {
-          title: 'Storage',
-          reserved_perc: 95,
-          used_perc: 60,
-          reserved: 10,
-          total: 15,
-        },
-        hours: {
-          title: 'Hours',
-          reserved_perc: 100,
-          used_perc: 30,
-          reserved: 44,
-          total: 50,
-        }
+        resources: [
+          svm: {
+            title: 'SVM',
+            reserved_perc: 80,
+            used_perc: 30,
+            reserved: 200,
+            total: 230
+          },
+          storage: {
+            title: 'Storage',
+            reserved_perc: 90,
+            used_perc: 60,
+            reserved: 10,
+            total: 15
+          },
+          hours: {
+            title: 'Hours',
+            reserved_perc: 100,
+            used_perc: 30,
+            reserved: 40,
+            total: 50
+          },
+        ],
+        departments: [
+          {
+            name: 'Department1',
+            price: {
+              current: 10,
+              next: 25
+            },
+            resources: [
+              svm: {
+                title: 'SVM',
+                reserved_perc: 80,
+                used_perc: 30,
+                reserved: 80,
+                total: 100
+              },
+              storage: {
+                title: 'Storage',
+                reserved_perc: 90,
+                used_perc: 60,
+                reserved: 9,
+                total: 10
+              },
+              hours: {
+                title: 'Hours',
+                reserved_perc: 100,
+                used_perc: 30,
+                reserved: 20,
+                total: 30
+              },
+            ],
+          },
+          {
+            name: 'Department2',
+            price: {
+              current: 10,
+              next: 25
+            },
+            resources: [
+              svm: {
+                title: 'SVM',
+                reserved_perc: 80,
+                used_perc: 30,
+                reserved: 80,
+                total: 100
+              },
+              storage: {
+                title: 'Storage',
+                reserved_perc: 90,
+                used_perc: 60,
+                reserved: 9,
+                total: 10
+              },
+              hours: {
+                title: 'Hours',
+                reserved_perc: 100,
+                used_perc: 30,
+                reserved: 20,
+                total: 30
+              },
+            ],
+          },
+
+        ]
       }
     ]
+  }
+)
+
+
+resourceApp.controller('ResourceCtrl', ['$scope','resources',($scope, resources) ->
+    $scope.resourcesRoot = resources.resourcesRoot
+    $scope.curResource = null
 ]);
 
 resourceApp.directive('resourcesCard', ->
   return {
-    restrict: 'AE',
     templateUrl: '_resources_card.html',
-    replace: true,
     scope: {
       title: '@',
       price: '=',
-      progressData1: '=',
-      progressData2: '=',
-      progressData3: '='
+      progressBarsData: '=',
     }
   }
 )
 
+resourceApp.directive('resourceProgress', ->
+  return {
+    templateUrl: '_resource_progress.html',
+    scope: {
+      icon: '@',
+      title: '@',
+      data: '=',
+      modalData: '='
+    }
+  }
+)
+
+resourceApp.directive('resourceModal', ->
+  return {
+    templateUrl: '_resource_modal.html',
+    scope: {
+      data: '='
+    }
+  }
+)
 
 
 $('#myModal').on('shown.bs.modal', ->
