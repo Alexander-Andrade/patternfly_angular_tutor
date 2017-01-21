@@ -187,6 +187,17 @@ resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourc
         {url: $location.absUrl(), name: 'Home'}
     ];
 
+    $scope.getBreadcrumbList = function(){
+        var absUrl = $location.absUrl();
+        list = [];
+        searchResult = $location.search();
+        for (var property in searchResult) {
+            if (object.hasOwnProperty(property)) {
+
+            }
+        }
+    };
+
     $scope.nextUrl = function(id){
         return $location.absUrl() + 'locations';
     }
@@ -194,7 +205,11 @@ resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourc
 
 
 resourceApp.controller('locationsCtrl', ['$scope','$routeParams','$location','resourcesServ', function($scope, $routeParams,resourcesServ) {
+    $scope.data = resourcesServ.root.locations;
 
+    $scope.breadcrumb_list = [
+        {url: $location.absUrl(), name: 'Home'}
+    ];
 }]);
 
 resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location','resourcesServ', function($scope, $routeParams,resourcesServ) {
