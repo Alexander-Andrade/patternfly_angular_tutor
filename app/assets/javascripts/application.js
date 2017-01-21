@@ -57,7 +57,7 @@ resourceApp.config( function($routeProvider) {
 
 resourceApp.service('resourcesServ', function () {
     this.root = {
-        name: 'Home...',
+        name: 'Top',
         price: {
             current: 3000,
             next: 6000
@@ -182,17 +182,22 @@ resourceApp.service('resourcesServ', function () {
 
 
 resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourcesServ', function($scope, $routeParams,$location,resourcesServ){
-    $scope.data = resourcesServ.root;
-    $scope.next_url = $location.path() + 'locations';
-    $scope.breadcrumb_list =
+    $scope.data = [resourcesServ.root];
+    $scope.breadcrumb_list = [
+        {url: $location.absUrl(), name: 'Home'}
+    ];
+
+    $scope.nextUrl = function(id){
+        return $location.absUrl() + 'locations';
+    }
 }]);
 
 
-resourceApp.controller('locationsCtrl', ['$scope','$routeParams','resourcesServ', function($scope, $routeParams,resourcesServ) {
+resourceApp.controller('locationsCtrl', ['$scope','$routeParams','$location','resourcesServ', function($scope, $routeParams,resourcesServ) {
 
 }]);
 
-resourceApp.controller('departmentsCtrl', ['$scope','$routeParams','resourcesServ', function($scope, $routeParams,resourcesServ) {
+resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location','resourcesServ', function($scope, $routeParams,resourcesServ) {
 
 }]);
 
@@ -200,9 +205,11 @@ resourceApp.directive('resourcesCard', function() {
     return {
         templateUrl: '_resources_card.html',
         scope: {
+            id: '@',
             title: '@',
             price: '=',
-            progressBarsData: '='
+            progressBarsData: '=',
+            nextUrl: '&'
         }
     };
 });
@@ -214,6 +221,8 @@ resourceApp.directive('resourceProgress', function() {
             icon: '@',
             title: '@',
             data: '=',
+            barColor1: '@',
+            barColor2: '@',
             modalData: '='
         }
     }
@@ -232,8 +241,7 @@ resourceApp.directive('resourceBreadcrumb', function() {
     return {
         templateUrl: '_resource_breadcrumb.html',
         scope: {
-            path: '@',
-            name: '@'
+            list: '='
         }
     }
 });
