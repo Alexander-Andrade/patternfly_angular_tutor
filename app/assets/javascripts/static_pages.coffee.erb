@@ -1,7 +1,15 @@
-resourceApp = angular.module('resource', ['patternfly.charts','patternfly.card','templates']);
+resourceApp = angular.module('resource', ['ngResource','patternfly.charts','patternfly.card','templates','ngRoute']);
 
-resourceApp.service('resources', ->
-  this.
+resourceApp.config( ($routeProvider) ->
+  $routeProvider
+  .when('/',{
+    templateUrl:'_resource_view.html',
+    controller: 'rootCtrl'
+  })
+)
+
+
+resourceApp.service('resourcesServ', ->
   this.resourcesRoot = {
     name: 'Home...',
     price: {
@@ -130,9 +138,15 @@ resourceApp.service('resources', ->
 )
 
 
-resourceApp.controller('ResourceCtrl', ['$scope','resources',($scope, resources) ->
-    $scope.resourcesRoot = resources.resourcesRoot
-    $scope.curResource = null
+resourceApp.controller('rootCtrl', ['$scope','$routeParams','resourcesServ',($scope, $routeParams,resourcesServ) ->
+  console.log 'rootCtrl'
+]);
+
+
+resourceApp.controller('locationsCtrl', ['$scope','$routeParams','resourcesServ',($scope, $routeParams,resourcesServ) ->
+]);
+
+resourceApp.controller('departmentsCtrl', ['$scope','$routeParams','resourcesServ',($scope, $routeParams,resourcesServ) ->
 ]);
 
 resourceApp.directive('resourcesCard', ->
@@ -167,6 +181,15 @@ resourceApp.directive('resourceModal', ->
   }
 )
 
+resourceApp.directive('resourceBreadcrumb', ->
+  return{
+    templateUrl: '_resource_breadcrumb.html',
+    scope: {
+      path: '@',
+      name: '@'
+    }
+  }
+)
 
 $('#myModal').on('shown.bs.modal', ->
   $('#myInput').focus()
