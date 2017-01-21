@@ -182,7 +182,9 @@ resourceApp.service('resourcesServ', function () {
 
 
 resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourcesServ', function($scope, $routeParams,$location,resourcesServ){
-    console.log(resourcesServ.root)
+    $scope.data = resourcesServ.root;
+    $scope.next_url = $location.path() + 'locations';
+    $scope.breadcrumb_list =
 }]);
 
 
