@@ -1,0 +1,16 @@
+<div resource-breadcrumb list="breadcrumbList"></div>
+<div class="cards-pf">
+    <div class="container-fluid container-cards-pf">
+
+        <div ng-repeat="elem in data" class="row row-cards-pf" ng-if="$index % 2 == 0">
+            <div class="col-xs-6">
+                <div resources-card id="{{$index+1}}" next-url="nextUrl(ident)" title="{{data[$index].name}}" price="data[$index].price" progress-bars-data="data[$index].resources"></div>
+            </div>
+            <div ng-if="!$last">
+                <div class="col-xs-6">
+                    <div resources-card id="{{$index+2}}" next-url="nextUrl(ident)" title="{{data[$index+1].name}}" price="data[$index+1].price" progress-data="data[$index+1].resources"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

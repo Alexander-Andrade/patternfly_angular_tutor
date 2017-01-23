@@ -1,0 +1,11 @@
+<div class="progress-description"><i class="{{icon}}" aria-hidden="true"></i>
+    {{data.title}}
+</div>
+<div class="progress progress-label-top-right">
+    <div class="progress-bar" data-toggle="modal" data-target="#myModal">
+        <div class="subbar" style="width: {{data.reserved_perc}}%; background-color: {{barColor1}}; opacity: 0.4;" title="{{data.reserved_perc}}%"></div>
+        <div class="subbar" style="width: {{data.used_perc}}%; background-color: {{barColor2}};  opacity: 0.4;" title="{{data.used_perc}}%"></div>
+        <span><strong>{{data.reserved}} from {{data.total}} {{data.units}}</strong> Used</span>
+    </div>
+</div>
+<!--<div resource-modal title="{{data.title}}" data="modalData"></div>-->
