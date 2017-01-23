@@ -558,37 +558,39 @@ resourceApp.service('resourcesServ', function () {
     }
 });
 
-resourceApp.service('urlHelper', ['$location', function ($location) {
-        return {
-            getBaseUrl: function() {
-                var absUrl = $location.absUrl();
-                return absUrl.split('#')[0]+'#!';
-            },
-            topPath: function () {
-                return this.getBaseUrl()+'/';
-            },
-            locationsPath: function(){
-                return this.topPath()+'locations';
-            },
-            departmentsPath: function(location_id){
-                return  this.locationsPath()+'/'+location_id+'/departments';
-            },
-            divisionsPath: function(location_id, department_id){
-                return this.departmentsPath(location_id)+'/'+department_id+'/divisions';
-            },
-            sectorsPath: function (location_id, department_id, division_id) {
-                return this.divisionsPath(location_id, department_id)+'/'+division_id+'/sectors';
-            },
-            projectsPath: function (location_id, department_id, division_id, sector_id) {
-                return this.sectorsPath(location_id, department_id, division_id)+'/'+sector_id+'/projects';
-            },
-            usersPath: function (location_id, department_id, division_id, sector_id, user_id) {
-                return this.projectsPath(location_id, department_id, division_id, sector_id)+'/'+user_id+'/users';
-            },
-        };
-}]);
+resourceApp.service('urlHelper', urlHelper);
 
+urlHelper.$inject = ['$location'];
 
+function urlHelper($location) {
+    return {
+        getBaseUrl: function() {
+            var absUrl = $location.absUrl();
+            return absUrl.split('#')[0]+'#!';
+        },
+        topPath: function () {
+            return this.getBaseUrl()+'/';
+        },
+        locationsPath: function(){
+            return this.topPath()+'locations';
+        },
+        departmentsPath: function(location_id){
+            return  this.locationsPath()+'/'+location_id+'/departments';
+        },
+        divisionsPath: function(location_id, department_id){
+            return this.departmentsPath(location_id)+'/'+department_id+'/divisions';
+        },
+        sectorsPath: function (location_id, department_id, division_id) {
+            return this.divisionsPath(location_id, department_id)+'/'+division_id+'/sectors';
+        },
+        projectsPath: function (location_id, department_id, division_id, sector_id) {
+            return this.sectorsPath(location_id, department_id, division_id)+'/'+sector_id+'/projects';
+        },
+        usersPath: function (location_id, department_id, division_id, sector_id, user_id) {
+            return this.projectsPath(location_id, department_id, division_id, sector_id)+'/'+user_id+'/users';
+        }
+    };
+}
 
 resourceApp.controller('rootCtrl', rootCtrl);
 rootCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelper'];
