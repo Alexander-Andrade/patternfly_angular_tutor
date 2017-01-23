@@ -53,9 +53,41 @@ resourceApp.config( function($routeProvider) {
             templateUrl: '_resource_view.html',
             controller: 'divisionsCtrl'
         })
-        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sector', {
+        .when('/locations/:location_id/departments/:department_id/divisions/:divisions_id', {
             templateUrl: '_resource_view.html',
             controller: 'divisionsCtrl'
+        })
+        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sectors', {
+            templateUrl: '_resource_view.html',
+            controller: 'sectorsCtrl'
+        })
+        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sectors/:sector_id', {
+            templateUrl: '_resource_view.html',
+            controller: 'sectorsCtrl'
+        })
+        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sectors/:sector_id/projects', {
+            templateUrl: '_resource_view.html',
+            controller: 'projectsCtrl'
+        })
+        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sectors/:sector_id/projects/:project_id', {
+            templateUrl: '_resource_view.html',
+            controller: 'projectsCtrl'
+        })
+        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sectors/:sector_id/projects/:project_id/users', {
+            templateUrl: '_resource_view.html',
+            controller: 'usersCtrl'
+        })
+        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sectors/:sector_id/projects/:project_id/users/:user_id', {
+            templateUrl: '_resource_view.html',
+            controller: 'usersCtrl'
+        })
+        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sectors/:sector_id/projects/:project_id/users/:user_id/vms', {
+            templateUrl: '_resource_view.html',
+            controller: 'vmsCtrl'
+        })
+        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sectors/:sector_id/projects/:project_id/users/:user_id/:vms_id', {
+            templateUrl: '_resource_view.html',
+            controller: 'vmsCtrl'
         })
         .otherwise({
             redirectto:'/'
@@ -151,7 +183,8 @@ resourceApp.service('resourcesServ', function () {
                     }
                 ],
                 divisions:[
-                    {name: 'Division1',
+                    {
+                        name: 'Division1',
                         price: {
                             current: 10,
                             next: 25
@@ -177,6 +210,67 @@ resourceApp.service('resourcesServ', function () {
                                 used_perc: 30,
                                 reserved: 20,
                                 total: 30
+                            }
+                        ],
+                        sectors:[
+                            {
+                                name: 'Sector1',
+                                price: {
+                                    current: 10,
+                                    next: 25
+                                },
+                                resources: [
+                                    {
+                                        title: 'SVM',
+                                        reserved_perc: 80,
+                                        used_perc: 20,
+                                        reserved: 40,
+                                        total: 100
+                                    },
+                                    {
+                                        title: 'Storage',
+                                        reserved_perc: 70,
+                                        used_perc: 44,
+                                        reserved: 9,
+                                        total: 10
+                                    },
+                                    {
+                                        title: 'Hours',
+                                        reserved_perc: 60,
+                                        used_perc: 20,
+                                        reserved: 20,
+                                        total: 30
+                                    }
+                                ]
+                            },
+                            {   name: 'Sector2',
+                                price: {
+                                    current: 10,
+                                    next: 25
+                                },
+                                resources: [
+                                    {
+                                        title: 'SVM',
+                                        reserved_perc: 80,
+                                        used_perc: 30,
+                                        reserved: 80,
+                                        total: 100
+                                    },
+                                    {
+                                        title: 'Storage',
+                                        reserved_perc: 70,
+                                        used_perc: 60,
+                                        reserved: 9,
+                                        total: 10
+                                    },
+                                    {
+                                        title: 'Hours',
+                                        reserved_perc: 70,
+                                        used_perc: 30,
+                                        reserved: 20,
+                                        total: 30
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -283,7 +377,23 @@ resourceApp.service('urlHelper', ['$location', function ($location) {
                 var absUrl = $location.absUrl();
                 var spletedUrl = absUrl.split('#');
                 return spletedUrl[0]+'#!';
+            },
+            topPath: function () {
+                return this.getBaseUrl()+'/';
+            },
+            locationsPath: function(){
+                return this.topPath()+'locations';
+            },
+            departmentsPath: function(location_id){
+                return  this.locationsPath()+'/'+location_id+'/departments';
+            },
+            divisionsPath: function(location_id, department_id){
+                return this.departmentsPath(location_id)+'/'+department_id+'/divisions';
+            },
+            sectorsPath: function (location_id, department_id, division_id) {
+                return this.divisionsPath(location_id, department_id)+'/'+division_id+'/sectors';
             }
+
         };
 }]);
 
@@ -301,8 +411,8 @@ resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourc
     $scope.breadcrumbList = $scope.getBreadcrumbList();
 
 
-    $scope.nextUrl = function(id){
-        return $location.absUrl()+'locations';
+    $scope.nextUrl = function(){
+        return urlHelper.locationsPath();
     }
 }]);
 
@@ -311,9 +421,8 @@ resourceApp.controller('locationsCtrl', ['$scope','$routeParams','$location','re
     $scope.data = resourcesServ.root.locations;
 
     $scope.getBreadCrumbList = function () {
-        var urlLeft = urlHelper.getBaseUrl();
         return [
-            {url: urlLeft + '/', name: 'Home'},
+            {url: urlHelper.topPath(), name: 'Home'},
             {url: $location.absUrl(), name: 'Locations'}
         ];
     };
@@ -322,7 +431,7 @@ resourceApp.controller('locationsCtrl', ['$scope','$routeParams','$location','re
 
 
     $scope.nextUrl = function(location_id){
-        return $location.absUrl()+'/'+location_id+'/departments';
+        return urlHelper.departmentsPath(location_id);
     }
 }]);
 
@@ -332,8 +441,8 @@ resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location',
     $scope.getBreadCrumbList = function () {
         var urlLeft = urlHelper.getBaseUrl();
         return [
-            {url: urlLeft+'/', name: 'Home'},
-            {url: urlLeft+'/'+'locations', name: 'Locations'},
+            {url: urlHelper.topPath(), name: 'Home'},
+            {url: urlHelper.locationsPath() , name: 'Locations'},
             {url: $location.absUrl(), name: 'Departments'}
         ];
     };
@@ -348,14 +457,36 @@ resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location',
 resourceApp.controller('divisionsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].divisions;
 
-    
+
     $scope.getBreadCrumbList = function () {
         var urlLeft = urlHelper.getBaseUrl();
         return [
-            {url: urlLeft+'/', name: 'Home'},
-            {url: urlLeft+'/'+'locations', name: 'Locations'},
-            {url: urlLeft+'/'+'locations'+'/'+$routeParams.location_id+'/departments', name: 'Departments'},
+            {url: urlHelper.topPath(), name: 'Home'},
+            {url: urlHelper.locationsPath(), name: 'Locations'},
+            {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
             {url: $location.absUrl(), name: 'Divisions'}
+        ];
+    };
+
+    $scope.breadcrumbList = $scope.getBreadCrumbList();
+
+    $scope.nextUrl = function(department_id){
+        return $location.absUrl()+'/'+division_id+'/sectors';
+    }
+}]);
+
+resourceApp.controller('sectorsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+    $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].divisions[$routeParams.division_id-1].sectors;
+    console.log($scope.data);
+
+    $scope.getBreadCrumbList = function () {
+        var urlLeft = urlHelper.getBaseUrl();
+        return [
+            {url: urlHelper.topPath(), name: 'Home'},
+            {url: urlHelper.locationsPath(), name: 'Locations'},
+            {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
+            {url: urlHelper.divisionsPath($routeParams.location_id,$routeParams.department_id), name: 'Divisions'},
+            {url: $location.absUrl(), name: 'Sectors'}
         ];
     };
 
@@ -365,6 +496,10 @@ resourceApp.controller('divisionsCtrl', ['$scope','$routeParams', '$location','r
         return $location.absUrl()+'/'+department_id+'/divisions';
     }
 }]);
+
+
+
+
 
 
 resourceApp.directive('resourcesCard', function() {
