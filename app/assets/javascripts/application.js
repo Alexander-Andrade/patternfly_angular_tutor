@@ -241,6 +241,193 @@ resourceApp.service('resourcesServ', function () {
                                         reserved: 20,
                                         total: 30
                                     }
+                                ],
+                                projects:[
+                                    {
+                                        name: 'Project1',
+                                        price: {
+                                            current: 10,
+                                            next: 25
+                                        },
+                                        resources: [
+                                            {
+                                                title: 'SVM',
+                                                reserved_perc: 80,
+                                                used_perc: 20,
+                                                reserved: 40,
+                                                total: 100
+                                            },
+                                            {
+                                                title: 'Storage',
+                                                reserved_perc: 70,
+                                                used_perc: 44,
+                                                reserved: 9,
+                                                total: 10
+                                            },
+                                            {
+                                                title: 'Hours',
+                                                reserved_perc: 60,
+                                                used_perc: 20,
+                                                reserved: 20,
+                                                total: 30
+                                            }
+                                        ],
+                                        users: [
+                                            {
+                                                name: 'User1',
+                                                price: {
+                                                    current: 10,
+                                                    next: 25
+                                                },
+                                                resources: [
+                                                    {
+                                                        title: 'SVM',
+                                                        reserved_perc: 80,
+                                                        used_perc: 20,
+                                                        reserved: 40,
+                                                        total: 100
+                                                    },
+                                                    {
+                                                        title: 'Storage',
+                                                        reserved_perc: 70,
+                                                        used_perc: 44,
+                                                        reserved: 9,
+                                                        total: 10
+                                                    },
+                                                    {
+                                                        title: 'Hours',
+                                                        reserved_perc: 60,
+                                                        used_perc: 20,
+                                                        reserved: 20,
+                                                        total: 30
+                                                    }
+                                                ],
+                                                vms:[
+                                                    {
+                                                        name: 'VM1',
+                                                        price: {
+                                                            current: 10,
+                                                            next: 25
+                                                        },
+                                                        resources: [
+                                                            {
+                                                                title: 'SVM',
+                                                                reserved_perc: 80,
+                                                                used_perc: 20,
+                                                                reserved: 40,
+                                                                total: 100
+                                                            },
+                                                            {
+                                                                title: 'Storage',
+                                                                reserved_perc: 70,
+                                                                used_perc: 44,
+                                                                reserved: 9,
+                                                                total: 10
+                                                            },
+                                                            {
+                                                                title: 'Hours',
+                                                                reserved_perc: 60,
+                                                                used_perc: 20,
+                                                                reserved: 20,
+                                                                total: 30
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        name: 'VM2',
+                                                        price: {
+                                                            current: 10,
+                                                            next: 25
+                                                        },
+                                                        resources: [
+                                                            {
+                                                                title: 'SVM',
+                                                                reserved_perc: 80,
+                                                                used_perc: 20,
+                                                                reserved: 40,
+                                                                total: 100
+                                                            },
+                                                            {
+                                                                title: 'Storage',
+                                                                reserved_perc: 70,
+                                                                used_perc: 44,
+                                                                reserved: 9,
+                                                                total: 10
+                                                            },
+                                                            {
+                                                                title: 'Hours',
+                                                                reserved_perc: 60,
+                                                                used_perc: 20,
+                                                                reserved: 20,
+                                                                total: 30
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                name: 'User2',
+                                                price: {
+                                                    current: 10,
+                                                    next: 25
+                                                },
+                                                resources: [
+                                                    {
+                                                        title: 'SVM',
+                                                        reserved_perc: 80,
+                                                        used_perc: 20,
+                                                        reserved: 40,
+                                                        total: 100
+                                                    },
+                                                    {
+                                                        title: 'Storage',
+                                                        reserved_perc: 70,
+                                                        used_perc: 44,
+                                                        reserved: 9,
+                                                        total: 10
+                                                    },
+                                                    {
+                                                        title: 'Hours',
+                                                        reserved_perc: 60,
+                                                        used_perc: 20,
+                                                        reserved: 20,
+                                                        total: 30
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        name: 'Project2',
+                                        price: {
+                                            current: 10,
+                                            next: 25
+                                        },
+                                        resources: [
+                                            {
+                                                title: 'SVM',
+                                                reserved_perc: 80,
+                                                used_perc: 20,
+                                                reserved: 40,
+                                                total: 100
+                                            },
+                                            {
+                                                title: 'Storage',
+                                                reserved_perc: 70,
+                                                used_perc: 44,
+                                                reserved: 9,
+                                                total: 10
+                                            },
+                                            {
+                                                title: 'Hours',
+                                                reserved_perc: 60,
+                                                used_perc: 20,
+                                                reserved: 20,
+                                                total: 30
+                                            }
+                                        ]
+                                    }
+
                                 ]
                             },
                             {   name: 'Sector2',
@@ -392,8 +579,13 @@ resourceApp.service('urlHelper', ['$location', function ($location) {
             },
             sectorsPath: function (location_id, department_id, division_id) {
                 return this.divisionsPath(location_id, department_id)+'/'+division_id+'/sectors';
-            }
-
+            },
+            projectsPath: function (location_id, department_id, division_id, sector_id) {
+                return this.sectorsPath(location_id, department_id, division_id)+'/'+sector_id+'/projects';
+            },
+            usersPath: function (location_id, department_id, division_id, sector_id, user_id) {
+                return this.projectsPath(location_id, department_id, division_id, sector_id)+'/'+user_id+'/users';
+            },
         };
 }]);
 
@@ -439,7 +631,6 @@ resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location',
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments;
 
     $scope.getBreadCrumbList = function () {
-        var urlLeft = urlHelper.getBaseUrl();
         return [
             {url: urlHelper.topPath(), name: 'Home'},
             {url: urlHelper.locationsPath() , name: 'Locations'},
@@ -459,7 +650,6 @@ resourceApp.controller('divisionsCtrl', ['$scope','$routeParams', '$location','r
 
 
     $scope.getBreadCrumbList = function () {
-        var urlLeft = urlHelper.getBaseUrl();
         return [
             {url: urlHelper.topPath(), name: 'Home'},
             {url: urlHelper.locationsPath(), name: 'Locations'},
@@ -470,17 +660,15 @@ resourceApp.controller('divisionsCtrl', ['$scope','$routeParams', '$location','r
 
     $scope.breadcrumbList = $scope.getBreadCrumbList();
 
-    $scope.nextUrl = function(department_id){
+    $scope.nextUrl = function(division_id){
         return $location.absUrl()+'/'+division_id+'/sectors';
     }
 }]);
 
 resourceApp.controller('sectorsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].divisions[$routeParams.division_id-1].sectors;
-    console.log($scope.data);
 
     $scope.getBreadCrumbList = function () {
-        var urlLeft = urlHelper.getBaseUrl();
         return [
             {url: urlHelper.topPath(), name: 'Home'},
             {url: urlHelper.locationsPath(), name: 'Locations'},
@@ -492,13 +680,79 @@ resourceApp.controller('sectorsCtrl', ['$scope','$routeParams', '$location','res
 
     $scope.breadcrumbList = $scope.getBreadCrumbList();
 
-    $scope.nextUrl = function(department_id){
-        return $location.absUrl()+'/'+department_id+'/divisions';
+    $scope.nextUrl = function(sector_id){
+        return $location.absUrl()+'/'+sector_id+'/projects';
     }
 }]);
 
+resourceApp.controller('projectsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+    $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].
+                  divisions[$routeParams.division_id-1].sectors[$routeParams.sector_id-1].projects;
 
+    $scope.getBreadCrumbList = function () {
+        return [
+            {url: urlHelper.topPath(), name: 'Home'},
+            {url: urlHelper.locationsPath(), name: 'Locations'},
+            {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
+            {url: urlHelper.divisionsPath($routeParams.location_id,$routeParams.department_id), name: 'Divisions'},
+            {url: urlHelper.sectorsPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id), name: 'Sectors'},
+            {url: $location.absUrl(), name: 'Projects'}
+        ];
+    };
 
+    $scope.breadcrumbList = $scope.getBreadCrumbList();
+
+    $scope.nextUrl = function(project_id){
+        return $location.absUrl()+'/'+project_id+'/users';
+    }
+}]);
+
+resourceApp.controller('usersCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+    $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].
+        divisions[$routeParams.division_id-1].sectors[$routeParams.sector_id-1].projects[$routeParams.project_id-1].users;
+
+    $scope.getBreadCrumbList = function () {
+        return [
+            {url: urlHelper.topPath(), name: 'Home'},
+            {url: urlHelper.locationsPath(), name: 'Locations'},
+            {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
+            {url: urlHelper.divisionsPath($routeParams.location_id,$routeParams.department_id), name: 'Divisions'},
+            {url: urlHelper.sectorsPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id), name: 'Sectors'},
+            {url: urlHelper.projectsPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id, $routeParams.sector_id), name: 'Projects'},
+            {url: $location.absUrl(), name: 'Users'}
+        ];
+    };
+
+    $scope.breadcrumbList = $scope.getBreadCrumbList();
+
+    $scope.nextUrl = function(user_id){
+        return $location.absUrl()+'/'+user_id+'/vms';
+    }
+}]);
+
+resourceApp.controller('vmsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+    $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].
+        divisions[$routeParams.division_id-1].sectors[$routeParams.sector_id-1].projects[$routeParams.project_id-1].users[$routeParams.user_id-1].vms;
+
+    $scope.getBreadCrumbList = function () {
+        return [
+            {url: urlHelper.topPath(), name: 'Home'},
+            {url: urlHelper.locationsPath(), name: 'Locations'},
+            {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
+            {url: urlHelper.divisionsPath($routeParams.location_id,$routeParams.department_id), name: 'Divisions'},
+            {url: urlHelper.sectorsPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id), name: 'Sectors'},
+            {url: urlHelper.projectsPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id, $routeParams.sector_id), name: 'Projects'},
+            {url: urlHelper.usersPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id, $routeParams.sector_id, $routeParams.project_id), name: 'Users'},
+            {url: $location.absUrl(), name: 'VMs'}
+        ];
+    };
+
+    $scope.breadcrumbList = $scope.getBreadCrumbList();
+
+    $scope.nextUrl = function(){
+        return $location.absUrl();
+    }
+}]);
 
 
 
