@@ -562,8 +562,7 @@ resourceApp.service('urlHelper', ['$location', function ($location) {
         return {
             getBaseUrl: function() {
                 var absUrl = $location.absUrl();
-                var spletedUrl = absUrl.split('#');
-                return spletedUrl[0]+'#!';
+                return absUrl.split('#')[0]+'#!';
             },
             topPath: function () {
                 return this.getBaseUrl()+'/';
@@ -591,9 +590,12 @@ resourceApp.service('urlHelper', ['$location', function ($location) {
 
 
 
-resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourcesServ','urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper){
+resourceApp.controller('rootCtrl', rootCtrl);
+rootCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelper'];
+
+function rootCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = [resourcesServ.root];
-    console.log("here");
+
     $scope.getBreadcrumbList = function(){
         return [
             {url: $location.absUrl(), name: 'Home'}
@@ -606,10 +608,12 @@ resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourc
     $scope.nextUrl = function(){
         return urlHelper.locationsPath();
     }
-}]);
+}
 
+resourceApp.controller('locationsCtrl', locationsCtrl);
+locationsCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelper'];
 
-resourceApp.controller('locationsCtrl', ['$scope','$routeParams','$location','resourcesServ','urlHelper', function($scope, $routeParams, $location, resourcesServ, urlHelper) {
+function locationsCtrl($scope, $routeParams, $location, resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations;
 
     $scope.getBreadCrumbList = function () {
@@ -625,9 +629,12 @@ resourceApp.controller('locationsCtrl', ['$scope','$routeParams','$location','re
     $scope.nextUrl = function(location_id){
         return urlHelper.departmentsPath(location_id);
     }
-}]);
+}
 
-resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+resourceApp.controller('departmentsCtrl', departmentsCtrl);
+departmentsCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelper'];
+
+function departmentsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments;
 
     $scope.getBreadCrumbList = function () {
@@ -643,9 +650,13 @@ resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location',
     $scope.nextUrl = function(department_id){
         return $location.absUrl()+'/'+department_id+'/divisions';
     }
-}]);
+}
 
-resourceApp.controller('divisionsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+
+resourceApp.controller('divisionsCtrl', divisionsCtrl);
+divisionsCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelper'];
+
+function divisionsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].divisions;
 
 
@@ -663,9 +674,12 @@ resourceApp.controller('divisionsCtrl', ['$scope','$routeParams', '$location','r
     $scope.nextUrl = function(division_id){
         return $location.absUrl()+'/'+division_id+'/sectors';
     }
-}]);
+}
 
-resourceApp.controller('sectorsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+resourceApp.controller('sectorsCtrl', sectorsCtrl);
+sectorsCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelper'];
+
+function sectorsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].divisions[$routeParams.division_id-1].sectors;
 
     $scope.getBreadCrumbList = function () {
@@ -683,11 +697,14 @@ resourceApp.controller('sectorsCtrl', ['$scope','$routeParams', '$location','res
     $scope.nextUrl = function(sector_id){
         return $location.absUrl()+'/'+sector_id+'/projects';
     }
-}]);
+}
 
-resourceApp.controller('projectsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+resourceApp.controller('projectsCtrl', projectsCtrl);
+projectsCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelper'];
+
+function projectsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].
-                  divisions[$routeParams.division_id-1].sectors[$routeParams.sector_id-1].projects;
+        divisions[$routeParams.division_id-1].sectors[$routeParams.sector_id-1].projects;
 
     $scope.getBreadCrumbList = function () {
         return [
@@ -705,9 +722,12 @@ resourceApp.controller('projectsCtrl', ['$scope','$routeParams', '$location','re
     $scope.nextUrl = function(project_id){
         return $location.absUrl()+'/'+project_id+'/users';
     }
-}]);
+}
 
-resourceApp.controller('usersCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+resourceApp.controller('usersCtrl', usersCtrl);
+usersCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelper'];
+
+function usersCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].
         divisions[$routeParams.division_id-1].sectors[$routeParams.sector_id-1].projects[$routeParams.project_id-1].users;
 
@@ -728,9 +748,13 @@ resourceApp.controller('usersCtrl', ['$scope','$routeParams', '$location','resou
     $scope.nextUrl = function(user_id){
         return $location.absUrl()+'/'+user_id+'/vms';
     }
-}]);
+}
 
-resourceApp.controller('vmsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+
+resourceApp.controller('vmsCtrl', vmsCtrl);
+vmsCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelper'];
+
+function vmsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].
         divisions[$routeParams.division_id-1].sectors[$routeParams.sector_id-1].projects[$routeParams.project_id-1].users[$routeParams.user_id-1].vms;
 
@@ -752,8 +776,7 @@ resourceApp.controller('vmsCtrl', ['$scope','$routeParams', '$location','resourc
     $scope.nextUrl = function(){
         return $location.absUrl();
     }
-}]);
-
+}
 
 
 resourceApp.directive('resourcesCard', function() {
