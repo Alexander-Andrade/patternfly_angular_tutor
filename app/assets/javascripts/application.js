@@ -53,6 +53,10 @@ resourceApp.config( function($routeProvider) {
             templateUrl: '_resource_view.html',
             controller: 'divisionsCtrl'
         })
+        .when('/locations/:location_id/departments/:department_id/divisions/:division_id/sector', {
+            templateUrl: '_resource_view.html',
+            controller: 'divisionsCtrl'
+        })
         .otherwise({
             redirectto:'/'
         });
@@ -144,6 +148,66 @@ resourceApp.service('resourcesServ', function () {
                         used_perc: 30,
                         reserved: 20,
                         total: 30
+                    }
+                ],
+                divisions:[
+                    {name: 'Division1',
+                        price: {
+                            current: 10,
+                            next: 25
+                        },
+                        resources: [
+                            {
+                                title: 'SVM',
+                                reserved_perc: 80,
+                                used_perc: 30,
+                                reserved: 80,
+                                total: 100
+                            },
+                            {
+                                title: 'Storage',
+                                reserved_perc: 70,
+                                used_perc: 60,
+                                reserved: 9,
+                                total: 10
+                            },
+                            {
+                                title: 'Hours',
+                                reserved_perc: 100,
+                                used_perc: 30,
+                                reserved: 20,
+                                total: 30
+                            }
+                        ]
+                    },
+                    {name: 'Division2',
+                        price: {
+                            current: 10,
+                            next: 25
+                        },
+                        resources: [
+                            {
+                                title: 'SVM',
+                                reserved_perc: 60,
+                                used_perc: 30,
+                                reserved: 80,
+                                total: 100
+                            },
+                            {
+                                title: 'Storage',
+                                reserved_perc: 90,
+                                used_perc: 60,
+                                reserved: 9,
+                                total: 10
+                            },
+                            {
+                                title: 'Hours',
+                                reserved_perc: 100,
+                                used_perc: 30,
+                                reserved: 20,
+                                total: 30
+                            }
+                        ]
                     }
                 ]
                 },
@@ -270,7 +334,7 @@ resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location',
         return [
             {url: urlLeft+'/', name: 'Home'},
             {url: urlLeft+'/'+'locations', name: 'Locations'},
-            {url: urlLeft+'/'+'locations'+'/'+$routeParams.location_id+'/departments', name: 'Departments'}
+            {url: $location.absUrl(), name: 'Departments'}
         ];
     };
 
@@ -281,7 +345,25 @@ resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location',
     }
 }]);
 
+resourceApp.controller('divisionsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+    $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].divisions;
 
+    $scope.getBreadCrumbList = function () {
+        var urlLeft = urlHelper.getBaseUrl();
+        return [
+            {url: urlLeft+'/', name: 'Home'},
+            {url: urlLeft+'/'+'locations', name: 'Locations'},
+            {url: urlLeft+'/'+'locations'+'/'+$routeParams.location_id+'/departments', name: 'Departments'},
+            {url: $location.absUrl(), name: 'Divisions'}
+        ];
+    };
+
+    $scope.breadcrumbList = $scope.getBreadCrumbList();
+
+    $scope.nextUrl = function(department_id){
+        return $location.absUrl()+'/'+department_id+'/divisions';
+    }
+}]);
 
 
 resourceApp.directive('resourcesCard', function() {
