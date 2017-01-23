@@ -207,7 +207,8 @@ resourceApp.controller('locationsCtrl', ['$scope','$routeParams','$location','re
     $scope.getBreadCrumbList = function () {
         var absUrl = $location.absUrl();
         var spletedUrl = absUrl.split('#');
-        var urlLeft = spletedUrl[0] + '#';
+        var urlLeft = spletedUrl[0] + '#!';
+        console.log(urlLeft);
         return [
             {url: urlLeft + '/', name: 'Home'},
             {url: absUrl, name: 'Locations'}
