@@ -348,6 +348,7 @@ resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location',
 resourceApp.controller('divisionsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].divisions;
 
+    
     $scope.getBreadCrumbList = function () {
         var urlLeft = urlHelper.getBaseUrl();
         return [
