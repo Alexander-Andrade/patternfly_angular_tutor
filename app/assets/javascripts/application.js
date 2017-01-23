@@ -178,7 +178,37 @@ resourceApp.service('resourcesServ', function () {
                 }
 
             ]
-        }
+            },
+            {
+                name: 'Location2',
+                price: {
+                    current: 45,
+                    next: 78
+                },
+                resources: [
+                    {
+                        title: 'SVM',
+                        reserved_perc: 70,
+                        used_perc: 20,
+                        reserved: 300,
+                        total: 400
+                    },
+                    {
+                        title: 'Storage',
+                        reserved_perc: 90,
+                        used_perc: 60,
+                        reserved: 10,
+                        total: 15
+                    },
+                    {
+                        title: 'Hours',
+                        reserved_perc: 100,
+                        used_perc: 30,
+                        reserved: 40,
+                        total: 50
+                    }
+                ]
+            }
         ]
     }
 });
