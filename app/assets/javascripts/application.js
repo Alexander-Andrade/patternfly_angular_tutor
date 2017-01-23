@@ -178,14 +178,56 @@ resourceApp.service('resourcesServ', function () {
                 }
 
             ]
-        }
+            },
+            {
+                name: 'Location2',
+                price: {
+                    current: 45,
+                    next: 78
+                },
+                resources: [
+                    {
+                        title: 'SVM',
+                        reserved_perc: 70,
+                        used_perc: 20,
+                        reserved: 300,
+                        total: 400
+                    },
+                    {
+                        title: 'Storage',
+                        reserved_perc: 90,
+                        used_perc: 60,
+                        reserved: 10,
+                        total: 15
+                    },
+                    {
+                        title: 'Hours',
+                        reserved_perc: 100,
+                        used_perc: 30,
+                        reserved: 40,
+                        total: 50
+                    }
+                ]
+            }
         ]
     }
 });
 
+resourceApp.service('urlHelper', ['$location', function ($location) {
+        return {
+            getBaseUrl: function() {
+                var absUrl = $location.absUrl();
+                var spletedUrl = absUrl.split('#');
+                return spletedUrl[0]+'#!';
+            }
+        };
+}]);
 
-resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourcesServ', function($scope, $routeParams,$location,resourcesServ){
+
+
+resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourcesServ','urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper){
     $scope.data = [resourcesServ.root];
+    console.log("here");
     $scope.getBreadcrumbList = function(){
         return [
             {url: $location.absUrl(), name: 'Home'}
@@ -196,36 +238,51 @@ resourceApp.controller('rootCtrl', ['$scope','$routeParams','$location','resourc
 
 
     $scope.nextUrl = function(id){
-        return $location.absUrl() + 'locations';
+        return $location.absUrl()+'locations';
     }
 }]);
 
 
-resourceApp.controller('locationsCtrl', ['$scope','$routeParams','$location','resourcesServ', function($scope, $routeParams, $location, resourcesServ) {
+resourceApp.controller('locationsCtrl', ['$scope','$routeParams','$location','resourcesServ','urlHelper', function($scope, $routeParams, $location, resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations;
 
     $scope.getBreadCrumbList = function () {
-        var absUrl = $location.absUrl();
-        var spletedUrl = absUrl.split('#');
-        var urlLeft = spletedUrl[0] + '#!';
-        console.log(urlLeft);
+        var urlLeft = urlHelper.getBaseUrl();
         return [
             {url: urlLeft + '/', name: 'Home'},
-            {url: absUrl, name: 'Locations'}
+            {url: $location.absUrl(), name: 'Locations'}
         ];
     };
 
     $scope.breadcrumbList = $scope.getBreadCrumbList();
 
 
-    $scope.nextUrl = function(locations_id){
-        return $location.absUrl() + locations_id +'/departments';
+    $scope.nextUrl = function(location_id){
+        return $location.absUrl()+'/'+location_id+'/departments';
     }
 }]);
 
-resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location','resourcesServ', function($scope, $routeParams,resourcesServ) {
+resourceApp.controller('departmentsCtrl', ['$scope','$routeParams', '$location','resourcesServ', 'urlHelper', function($scope, $routeParams,$location,resourcesServ, urlHelper) {
+    $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments;
 
+    $scope.getBreadCrumbList = function () {
+        var urlLeft = urlHelper.getBaseUrl();
+        return [
+            {url: urlLeft+'/', name: 'Home'},
+            {url: urlLeft+'/'+'locations', name: 'Locations'},
+            {url: urlLeft+'/'+'locations'+'/'+$routeParams.location_id+'/departments', name: 'Departments'}
+        ];
+    };
+
+    $scope.breadcrumbList = $scope.getBreadCrumbList();
+
+    $scope.nextUrl = function(department_id){
+        return $location.absUrl()+'/'+department_id+'/divisions';
+    }
 }]);
+
+
+
 
 resourceApp.directive('resourcesCard', function() {
     return {
