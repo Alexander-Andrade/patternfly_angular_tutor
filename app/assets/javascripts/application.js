@@ -769,7 +769,7 @@ function usersCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     //     ];
     // };
 
-    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), ['Home','Location','Departments','Divisions','Sectors','Users','Projects']);
+    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), ['Home','Location','Departments','Divisions','Sectors','Projects','Users']);
     console.log($location.path().split('/'));
     $scope.nextUrl = function (user_id) {
         var vms = $scope.data[user_id-1].vms;
