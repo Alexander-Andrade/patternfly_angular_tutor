@@ -27,7 +27,7 @@
 
 resourceApp = angular.module('resource', ['ngRoute','ngResource','patternfly.charts','patternfly.card','templates']);
 
-resourceApp.config( function($routeProvider) {
+resourceApp.config( ['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: '_resource_view.html',
@@ -92,7 +92,7 @@ resourceApp.config( function($routeProvider) {
         .otherwise({
             redirectto:'/'
         });
-});
+}]);
 
 resourceApp.service('resourcesServ', function () {
     this.root = {
