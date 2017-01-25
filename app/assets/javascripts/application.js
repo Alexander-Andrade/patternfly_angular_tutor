@@ -589,26 +589,19 @@ function urlHelper($location) {
         usersPath: function (location_id, department_id, division_id, sector_id, user_id) {
             return this.projectsPath(location_id, department_id, division_id, sector_id)+'/'+user_id+'/users';
         },
-        getBreadcrumbList: function (url, nameList) {
-            var spitedUrl = url.split('/');
-            var urlPart = '#!/';
-            var urlList = [urlPart];
-            console.log(spitedUrl);
-            lastSpitedUrlEl = spitedUrl.slice(-1)[0];
-            if(spitedUrl.length>1 && lastSpitedUrlEl !==''){
-                urlPart += spitedUrl[1];
-                urlList.push(urlPart);
-                var i = 2;
-                while (i < spitedUrl.length){
-                    id = spitedUrl[i];
-                    nextUrlElem = spitedUrl[i+1];
-                    urlPart += '/'+id+'/'+nextUrlElem;
-                    urlList.push(urlPart);
-                    i +=2;
-                }
-            }
-            return urlList.map(function (e, i) {
-               return {url: e, name: nameList[i]}
+        getBreadcrumbList: function (url, routeParams,nameList) {
+            var urlList = [
+                this.topPath(),
+                this.locationsPath(),
+                this.departmentsPath(routeParams.location_id),
+                this.divisionsPath(routeParams.location_id, routeParams.department_id),
+                this.sectorsPath(routeParams.location_id, routeParams.department_id, routeParams.division_id),
+                this.projectsPath(routeParams.location_id, routeParams.department_id, routeParams.division_id, routeParams.sector_id),
+                this.usersPath(routeParams.location_id, routeParams.department_id, routeParams.division_id, routeParams.sector_id, routeParams.user_id)
+            ];
+
+            return nameList.map(function (e, i) {
+               return {url: urlList[i], name: e}
             });
         }
     };
@@ -620,13 +613,7 @@ rootCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHelp
 function rootCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = [resourcesServ.root];
 
-    // $scope.getBreadcrumbList = function(){
-    //     return [
-    //         {url: $location.absUrl(), name: 'Home'}
-    //     ];
-    // };
-
-    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(),['Home']);
+    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(),$routeParams,['Home']);
     console.log($scope.breadcrumbList);
 
     $scope.nextUrl = function(){
@@ -640,14 +627,7 @@ locationsCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','ur
 function locationsCtrl($scope, $routeParams, $location, resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations;
 
-    // $scope.getBreadCrumbList = function () {
-    //     return [
-    //         {url: urlHelper.topPath(), name: 'Home'},
-    //         {url: $location.absUrl(), name: 'Locations'}
-    //     ];
-    // };
-
-    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), ['Home','Location']);
+    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), $routeParams, ['Home','Location']);
 
     $scope.nextUrl = function(location_id){
         var deps = $scope.data[location_id-1].departments;
@@ -661,15 +641,8 @@ departmentsCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','
 function departmentsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments;
 
-    // $scope.getBreadCrumbList = function () {
-    //     return [
-    //         {url: urlHelper.topPath(), name: 'Home'},
-    //         {url: urlHelper.locationsPath() , name: 'Locations'},
-    //         {url: $location.absUrl(), name: 'Departments'}
-    //     ];
-    // };
-
-    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), ['Home','Location','Departments']);
+    var nameList = ['Home','Location','Departments'];
+    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), $routeParams, nameList);
 
     $scope.nextUrl = function(department_id){
         var divs = $scope.data[department_id-1].divisions;
@@ -685,16 +658,8 @@ function divisionsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) 
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].divisions;
 
 
-    // $scope.getBreadCrumbList = function () {
-    //     return [
-    //         {url: urlHelper.topPath(), name: 'Home'},
-    //         {url: urlHelper.locationsPath(), name: 'Locations'},
-    //         {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
-    //         {url: $location.absUrl(), name: 'Divisions'}
-    //     ];
-    // };
-
-    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), ['Home','Location','Departments','Divisions']);
+    var nameList = ['Home','Location','Departments','Divisions'];
+    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), $routeParams, nameList);
     $scope.nextUrl = function(division_id){
         var sectors = $scope.data[division_id-1].sectors;
         return  (typeof sectors !== 'undefined' && sectors.length>0) ? $location.absUrl()+'/'+division_id+'/sectors' : $location.absUrl();
@@ -707,17 +672,8 @@ sectorsCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlH
 function sectorsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].divisions[$routeParams.division_id-1].sectors;
 
-    // $scope.getBreadCrumbList = function () {
-    //     return [
-    //         {url: urlHelper.topPath(), name: 'Home'},
-    //         {url: urlHelper.locationsPath(), name: 'Locations'},
-    //         {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
-    //         {url: urlHelper.divisionsPath($routeParams.location_id,$routeParams.department_id), name: 'Divisions'},
-    //         {url: $location.absUrl(), name: 'Sectors'}
-    //     ];
-    // };
-
-    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), ['Home','Location','Departments','Divisions','Sectors']);
+    var nameList = ['Home','Location','Departments','Divisions','Sectors'];
+    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), $routeParams, nameList);
 
     $scope.nextUrl = function(sector_id){
         var projects = $scope.data[sector_id-1].projects;
@@ -732,18 +688,8 @@ function projectsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].
         divisions[$routeParams.division_id-1].sectors[$routeParams.sector_id-1].projects;
 
-    // $scope.getBreadCrumbList = function () {
-    //     return [
-    //         {url: urlHelper.topPath(), name: 'Home'},
-    //         {url: urlHelper.locationsPath(), name: 'Locations'},
-    //         {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
-    //         {url: urlHelper.divisionsPath($routeParams.location_id,$routeParams.department_id), name: 'Divisions'},
-    //         {url: urlHelper.sectorsPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id), name: 'Sectors'},
-    //         {url: $location.absUrl(), name: 'Projects'}
-    //     ];
-    // };
-
-    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), ['Home','Location','Departments','Divisions','Sectors','Projects']);
+    var nameList = ['Home','Location','Departments','Divisions','Sectors','Projects'];
+    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), $routeParams, nameList);
 
     $scope.nextUrl = function(project_id){
         var users = $scope.data[project_id-1].users;
@@ -757,20 +703,9 @@ usersCtrl.$inject = ['$scope','$routeParams','$location','resourcesServ','urlHel
 function usersCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id - 1].departments[$routeParams.department_id - 1].divisions[$routeParams.division_id - 1].sectors[$routeParams.sector_id - 1].projects[$routeParams.project_id - 1].users;
 
-    // $scope.getBreadCrumbList = function () {
-    //     return [
-    //         {url: urlHelper.topPath(), name: 'Home'},
-    //         {url: urlHelper.locationsPath(), name: 'Locations'},
-    //         {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
-    //         {url: urlHelper.divisionsPath($routeParams.location_id, $routeParams.department_id), name: 'Divisions'},
-    //         {url: urlHelper.sectorsPath($routeParams.location_id, $routeParams.department_id, $routeParams.division_id), name: 'Sectors'},
-    //         {url: urlHelper.projectsPath($routeParams.location_id, $routeParams.department_id, $routeParams.division_id, $routeParams.sector_id),name: 'Projects'},
-    //         {url: $location.absUrl(), name: 'Users'}
-    //     ];
-    // };
+    var nameList = ['Home','Location','Departments','Divisions','Sectors','Projects','Users'];
+    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), $routeParams, nameList);
 
-    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), ['Home','Location','Departments','Divisions','Sectors','Projects','Users']);
-    console.log($location.path().split('/'));
     $scope.nextUrl = function (user_id) {
         var vms = $scope.data[user_id-1].vms;
         return (typeof vms !== 'undefined' && vms.length > 0) ? $location.absUrl() + '/' + user_id + '/vms' : $location.absUrl();
@@ -785,20 +720,8 @@ function vmsCtrl($scope, $routeParams,$location,resourcesServ, urlHelper) {
     $scope.data = resourcesServ.root.locations[$routeParams.location_id-1].departments[$routeParams.department_id-1].
         divisions[$routeParams.division_id-1].sectors[$routeParams.sector_id-1].projects[$routeParams.project_id-1].users[$routeParams.user_id-1].vms;
 
-    // $scope.getBreadCrumbList = function () {
-    //     return [
-    //         {url: urlHelper.topPath(), name: 'Home'},
-    //         {url: urlHelper.locationsPath(), name: 'Locations'},
-    //         {url: urlHelper.departmentsPath($routeParams.location_id), name: 'Departments'},
-    //         {url: urlHelper.divisionsPath($routeParams.location_id,$routeParams.department_id), name: 'Divisions'},
-    //         {url: urlHelper.sectorsPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id), name: 'Sectors'},
-    //         {url: urlHelper.projectsPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id, $routeParams.sector_id), name: 'Projects'},
-    //         {url: urlHelper.usersPath($routeParams.location_id,$routeParams.department_id, $routeParams.division_id, $routeParams.sector_id, $routeParams.project_id), name: 'Users'},
-    //         {url: $location.absUrl(), name: 'VMs'}
-    //     ];
-    // };
-
-    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), ['Home','Location','Departments','Divisions','Sectors','Projects','Users','VMs']);
+    var nameList = ['Home','Location','Departments','Divisions','Sectors','Projects','Users', 'VMs'];
+    $scope.breadcrumbList = urlHelper.getBreadcrumbList($location.url(), $routeParams, nameList);
 
     $scope.nextUrl = function(){
         return $location.absUrl();
