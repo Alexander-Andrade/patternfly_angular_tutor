@@ -39,6 +39,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'angularjs-rails'
 # templates for directives
 gem 'angular-rails-templates'
+# angular javascript won't break during minification.
+gem 'ngannotate-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
