@@ -774,7 +774,7 @@ resourceApp.directive('resourceBreadcrumb', function() {
     }
 });
 
-$('#myModal').on('shown.bs.modal', function() {
+$('.resource-modal').on('shown.bs.modal', function() {
     $('#myInput').focus()
 });
 
