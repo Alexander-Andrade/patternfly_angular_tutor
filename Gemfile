@@ -39,6 +39,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'angularjs-rails'
 # templates for directives
 gem 'angular-rails-templates'
+gem 'angular-ui-router-rails'
 # angular javascript won't break during minification.
 gem 'ngannotate-rails'
 
