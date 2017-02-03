@@ -5,44 +5,28 @@
     resourceApp.config(['$stateProvider','$urlRouterProvider','$qProvider', function ($stateProvider, $urlRouterProvider, $qProvider) {
         $qProvider.errorOnUnhandledRejections(false);
         $stateProvider
-            // .state('account',{
-            //     url:'/',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // })
-            // .state('account.locations',{
-            //     url:'locations',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // })
-            // .state('locations.location',{
-            //     url:'/{locationId}',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // });
-            .state('people',{
-                url:'/people',
+            .state('account',{
+                url:'/',
                 templateUrl:'test.html',
                 controller: 'accountCtrl'
             })
-            .state('people.person',{
-                url:'/{personId}',
+            .state('account.locations',{
+                url:'locations',
+                templateUrl:'test.html',
+                controller: 'accountCtrl'
+            })
+            .state('account.locations.location',{
+                url:'/{locationId}',
+                templateUrl:'test.html',
+                controller: 'accountCtrl'
+            })
+            .state('account.locations.location.tenants',{
+                url:'/{tenantPath: [a-zA-Z0-9/]*}',
                 templateUrl:'test.html',
                 controller: 'accountCtrl'
             });
-            // .state('people.person.billings',{
-            //     url:'/billings',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // })
-            // .state('people.person.billings.billing',{
-            //     url:'/{billingId}',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // });
 
-
-        // $urlRouterProvider.otherwise('/');
+            $urlRouterProvider.otherwise('/');
     }]);
 // {tenantPath:[a-zA-Z0-9/]*}/user'
 
