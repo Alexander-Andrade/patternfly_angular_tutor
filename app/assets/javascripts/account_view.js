@@ -5,25 +5,59 @@
     resourceApp.config(['$stateProvider','$urlRouterProvider','$qProvider', function ($stateProvider, $urlRouterProvider, $qProvider) {
         $qProvider.errorOnUnhandledRejections(false);
         $stateProvider
+            // .state('account',{
+            //     url:'/',
+            //     templateUrl:'test.html',
+            //     controller: 'accountCtrl'
+            // })
+            // .state('account.locations',{
+            //     url:'locations',
+            //     templateUrl:'test.html',
+            //     controller: 'accountCtrl'
+            // })
+            // .state('account.locations.location',{
+            //     url:'/{locationId}',
+            //     templateUrl:'test.html',
+            //     controller: 'accountCtrl'
+            // })
+            // .state('account.locations.location.tenants',{
+            //     url:'/{tenantPath: [a-zA-Z0-9/]*}',
+            //     templateUrl:'test.html',
+            //     controller: 'accountCtrl'
+            // });
+            // .state('home',{
+            //     url:'/',
+            //     templateUrl:'test.html',
+            //     controller: 'accountCtrl'
+            // })
             .state('account',{
-                url:'/',
+                url:'/{path:.*}',
                 templateUrl:'test.html',
-                controller: 'accountCtrl'
-            })
-            .state('account.locations',{
-                url:'locations',
-                templateUrl:'test.html',
-                controller: 'accountCtrl'
-            })
-            .state('account.locations.location',{
-                url:'/{locationId}',
-                templateUrl:'test.html',
-                controller: 'accountCtrl'
-            })
-            .state('account.locations.location.tenants',{
-                url:'/{tenantPath: [a-zA-Z0-9/]*}',
-                templateUrl:'test.html',
-                controller: 'accountCtrl'
+                controller: 'accountCtrl',
+                // resolve:{
+                //     ctrlData:['$state', '$stateParams' ,function ($state, $stateParams) {
+                //         console.log("resolve ")
+                //     }]
+                // },
+                onEnter: ['$state','$stateParams','suiDataServ', function($state, $stateParams, suiDataServ){
+                    suiDataServ.async().then(function(d) {
+                        var path = $stateParams.path;
+                        console.log(path);
+                        var rootNode = d;
+
+                        // my tenant path
+                        if(path == 'undefined' || path.length== 0){
+                            suiDataServ.node = [rootNode];
+                            return;
+                        }
+                        // locations path
+                        if(path == "locations"){
+                            suiDataServ.node = rootNode.children;
+                        }
+                    });
+                    // var params = $stateParams.path.split('/');
+                    // console.log(params)
+                }]
             });
 
             $urlRouterProvider.otherwise('/');
@@ -51,14 +85,17 @@
 
 
     resourceApp.controller('accountCtrl', accountCtrl);
-    accountCtrl.$inject = ['$scope', 'suiDataServ','$state', '$stateParams'];
+    accountCtrl.$inject = ['$scope', 'suiDataServ', '$state', '$stateParams'];
     function accountCtrl($scope, suiDataServ, $state, $stateParams) {
         suiDataServ.async().then(function(d) {
-            $scope.data = d;
-            console.log($state.current);
-            console.log($stateParams);
-            console.log($state.params);
+                console.log(suiDataServ.node);
+            // console.log(suiDataServ.node);
+            // console.log(parameters);
+            // console.log($state.current);
+            // console.log($stateParams);
+            // console.log($state.params);
         });
+
     }
 
 // })();
