@@ -39,19 +39,22 @@
                         return suiDataServ.getPromise();
                     }]
                 },
-                onEnter: ['$state','$stateParams','suiData', function($state, $stateParams, suiData){
-
-                    var path = $stateParams.path;
+                onEnter: ['$state','$stateParams','suiData','urlHelper', function($state, $stateParams, suiData, urlHelper){
+                    var path = urlHelper.accountPath()+$stateParams.path;
                     console.log(path);
 
                     // my tenant path
-                    if(path == 'undefined' || path.length== 0){
+                    if(urlHelper.isAccountPath(path)){
                         suiData.node = [suiData];
                         return;
                     }
                     // locations path
-                    if(path == "locations"){
+                    if(urlHelper.isLocationsPath(path)){
                         suiData.node = suiData.children;
+                        return;
+                    }
+                    if(urlHelper.isTenantsPath(path)){
+                        console.log("tenant path!")
                     }
                     var params = $stateParams.path.split('/');
 
@@ -60,7 +63,35 @@
 
             $urlRouterProvider.otherwise('/');
     }]);
-// {tenantPath:[a-zA-Z0-9/]*}/user'
+
+resourceApp.service('urlHelper', urlHelper);
+urlHelper.$inject = ['$location'];
+function urlHelper($location) {
+    return {
+        getBaseUrl: function () {
+            var absUrl = $location.absUrl();
+            return absUrl.split('#')[0] + '#!';
+        },
+        accountPath: function () {
+            return this.getBaseUrl() + '/';
+        },
+        locationsPath: function () {
+            return this.accountPath()+'locations';
+        },
+        isAccountPath: function (path) {
+            return this.accountPath() === path;
+        },
+        isLocationsPath: function(path){
+            return this.locationsPath() === path;
+        },
+        isTenantsPath: function(path){
+            var locationsPath = this.locationsPath();
+            var re = new RegExp("^"+locationsPath+"(\/tenants(\/(\d)+)?)+"+"$");
+            console.log(re);
+            return re.test(path)
+        }
+    }
+}
 
     resourceApp.service('suiDataServ', suiDataServ);
     suiDataServ.$inject = ['$http'];
