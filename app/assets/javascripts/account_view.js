@@ -93,6 +93,18 @@ function urlHelper($location) {
         locationsPath: function () {
             return this.accountPath()+'locations';
         },
+        getTenantsRegStr: function () {
+            return this.locationsPath()+"\/tenants((\/([0-9])+\/tenants)?)+";
+        },
+        getMiqGroupsRegStr: function () {
+            return this.getTenantsRegStr()+"\/([0-9])+"+"\/miqgroups";
+        },
+        getProjectsRegStr: function () {
+            return this.getTenantsRegStr()+"\/([0-9])+"+"\/projects";
+        },
+        getUsersRegStr: function(){
+            return this.getMiqGroupsRegStr()+"\/([0-9])+"+"\/users";
+        },
         isAccountPath: function (path) {
             return this.accountPath() === path;
         },
@@ -100,30 +112,25 @@ function urlHelper($location) {
             return this.locationsPath() === path;
         },
         isTenantsPath: function(path){
-            var locationsPath = this.locationsPath();
-            var re = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"$");
+            var re = new RegExp("^"+this.getTenantsRegStr()+"$");
             return re.test(path)
         },
         isMiqGroupsPath: function(path){
-            var locationsPath = this.locationsPath();
-            var re = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/miqgroups"+"$");
+            var re = new RegExp("^"+this.getMiqGroupsRegStr()+"$");
             return re.test(path)
         },
         isProjectsPath: function(path){
-            var locationsPath = this.locationsPath();
-            var re = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/projects"+"$");
+            var re = new RegExp("^"+this.getProjectsRegStr()+"$");
+            return re.test(path)
+        },
+        isUsersPath: function (path) {
+            var re = new RegExp("^"+this.getUsersRegStr()+"$");
             return re.test(path)
         },
         isVMsPath: function (path) {
-            var locationsPath = this.locationsPath();
-            var re1 = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/projects"+"\/([0-9])+"+"\/vms"+"$");
-            var re2 = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/miqgroups"+"\/([0-9])+"+"\/users"+"\/([0-9])+"+"\/vms"+"$");
+            var re1 = new RegExp("^"+this.getProjectsRegStr()+"\/([0-9])+"+"\/vms"+"$");
+            var re2 = new RegExp("^"+this.getUsersRegStr()+"\/([0-9])+"+"\/vms"+"$");
             return re1.test(path) || re2.test(path);
-        },
-        isUsersPath: function (path) {
-            var locationsPath = this.locationsPath();
-            var re = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/miqgroups"+"\/([0-9])+"+"\/users"+"$");
-            return re.test(path)
         }
     }
 }
