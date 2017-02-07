@@ -53,8 +53,17 @@
                         suiData.node = suiData.children;
                         return;
                     }
+                    //tenants path
                     if(urlHelper.isTenantsPath(path)){
-                        console.log("tenant path!")
+                        console.log("tenants path!")
+                    }
+                    //miggroups path
+                    if(urlHelper.isMiqGroupsPath(path)){
+                        console.log("miggroups path!");
+                    }
+                    //users
+                    if(urlHelper.isUsersPath(path)){
+                        console.log("users path!");
                     }
                     var params = $stateParams.path.split('/');
 
@@ -86,8 +95,18 @@ function urlHelper($location) {
         },
         isTenantsPath: function(path){
             var locationsPath = this.locationsPath();
-            var re = new RegExp("^"+locationsPath+"(\/tenants(\/(\d)+)?)+"+"$");
+            var re = new RegExp("^"+locationsPath+"(\/tenants(\/([0-9])+)?)+$");
+            return re.test(path)
+        },
+        isMiqGroupsPath: function(path){
+            var locationsPath = this.locationsPath();
+            var re = new RegExp("^"+locationsPath+"(\/tenants(\/([0-9])+)?)+"+"\/miqgroups"+"$");
             console.log(re);
+            return re.test(path)
+        },
+        isUsersPath: function () {
+            var locationsPath = this.locationsPath();
+            var re = new RegExp("^"+locationsPath+"(\/tenants(\/([0-9])+)?)+"+"\/miqgroups"+"\/([0-9])+"+"\/users"+"$");
             return re.test(path)
         }
     }
