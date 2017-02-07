@@ -61,6 +61,12 @@
                     if(urlHelper.isMiqGroupsPath(path)){
                         console.log("miggroups path!");
                     }
+                    if(urlHelper.isProjectsPath(path)){
+                        console.log("projects path!");
+                    }
+                    if(urlHelper.isVMsPath(path)){
+                        console.log("vms path!");
+                    }
                     //users
                     if(urlHelper.isUsersPath(path)){
                         console.log("users path!");
@@ -95,18 +101,28 @@ function urlHelper($location) {
         },
         isTenantsPath: function(path){
             var locationsPath = this.locationsPath();
-            var re = new RegExp("^"+locationsPath+"(\/tenants(\/([0-9])+)?)+$");
+            var re = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"$");
             return re.test(path)
         },
         isMiqGroupsPath: function(path){
             var locationsPath = this.locationsPath();
-            var re = new RegExp("^"+locationsPath+"(\/tenants(\/([0-9])+)?)+"+"\/miqgroups"+"$");
-            console.log(re);
+            var re = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/miqgroups"+"$");
             return re.test(path)
         },
-        isUsersPath: function () {
+        isProjectsPath: function(path){
             var locationsPath = this.locationsPath();
-            var re = new RegExp("^"+locationsPath+"(\/tenants(\/([0-9])+)?)+"+"\/miqgroups"+"\/([0-9])+"+"\/users"+"$");
+            var re = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/projects"+"$");
+            return re.test(path)
+        },
+        isVMsPath: function (path) {
+            var locationsPath = this.locationsPath();
+            var re1 = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/projects"+"\/([0-9])+"+"\/vms"+"$");
+            var re2 = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/miqgroups"+"\/([0-9])+"+"\/users"+"\/([0-9])+"+"\/vms"+"$");
+            return re1.test(path) || re2.test(path);
+        },
+        isUsersPath: function (path) {
+            var locationsPath = this.locationsPath();
+            var re = new RegExp("^"+locationsPath+"\/tenants((\/([0-9])+\/tenants)?)+"+"\/([0-9])+"+"\/miqgroups"+"\/([0-9])+"+"\/users"+"$");
             return re.test(path)
         }
     }
