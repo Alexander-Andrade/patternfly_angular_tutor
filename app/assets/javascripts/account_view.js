@@ -30,8 +30,12 @@
             //     templateUrl:'test.html',
             //     controller: 'accountCtrl'
             // })
+            .state('error', {
+                url:'/error',
+                templateUrl:'404.html'
+            })
             .state('account',{
-                url:'/{path:.*}',
+                url:'/account{path:.*}',
                 templateUrl:'test.html',
                 controller: 'accountCtrl',
                 resolve:{
@@ -39,44 +43,17 @@
                         return suiDataServ.getPromise();
                     }]
                 },
-                onEnter: ['$state','$stateParams','suiData','urlHelper', function($state, $stateParams, suiData, urlHelper){
-                    var path = urlHelper.accountPath()+$stateParams.path;
-                    console.log(path);
+                onEnter: ['$state','$stateParams','suiData','urlHelper','$location', function($state, $stateParams, suiData, urlHelper, $location){
+                    var url = $location.absUrl();
 
-                    // my tenant path
-                    if(urlHelper.isAccountPath(path)){
-                        suiData.node = [suiData];
-                        return;
+                    if(!(urlHelper.isCorrectPath(url))){
+                        console.log("error");
+                        // $state.go('error');
+                    }else{
+                        console.log("norm");
                     }
-                    // locations path
-                    if(urlHelper.isLocationsPath(path)){
-                        suiData.node = suiData.children;
-                        return;
-                    }
-                    //tenants path
-                    if(urlHelper.isTenantsPath(path)){
-                        console.log("tenants path!")
-                    }
-                    //miggroups path
-                    if(urlHelper.isMiqGroupsPath(path)){
-                        console.log("miggroups path!");
-                    }
-                    if(urlHelper.isProjectsPath(path)){
-                        console.log("projects path!");
-                    }
-                    if(urlHelper.isVMsPath(path)){
-                        console.log("vms path!");
-                    }
-                    //users
-                    if(urlHelper.isUsersPath(path)){
-                        console.log("users path!");
-                    }
-                    var params = $stateParams.path.split('/');
-
                 }]
             });
-
-            $urlRouterProvider.otherwise('/');
     }]);
 
 resourceApp.service('urlHelper', urlHelper);
@@ -88,13 +65,13 @@ function urlHelper($location) {
             return absUrl.split('#')[0] + '#!';
         },
         accountPath: function () {
-            return this.getBaseUrl() + '/';
+            return this.getBaseUrl() + '/account';
         },
         locationsPath: function () {
-            return this.accountPath()+'locations';
+            return this.accountPath()+'/locations';
         },
         getTenantsRegStr: function () {
-            return this.locationsPath()+"\/tenants((\/([0-9])+\/tenants)?)+";
+            return this.locationsPath()+"\/([0-9])+"+"\/tenants((\/([0-9])+\/tenants)?)+";
         },
         getMiqGroupsRegStr: function () {
             return this.getTenantsRegStr()+"\/([0-9])+"+"\/miqgroups";
@@ -106,13 +83,14 @@ function urlHelper($location) {
             return this.getMiqGroupsRegStr()+"\/([0-9])+"+"\/users";
         },
         isAccountPath: function (path) {
-            return this.accountPath() === path;
+            return this.accountPath() == path;
         },
         isLocationsPath: function(path){
-            return this.locationsPath() === path;
+            return this.locationsPath() == path;
         },
         isTenantsPath: function(path){
             var re = new RegExp("^"+this.getTenantsRegStr()+"$");
+            console.log(re);
             return re.test(path)
         },
         isMiqGroupsPath: function(path){
@@ -131,9 +109,23 @@ function urlHelper($location) {
             var re1 = new RegExp("^"+this.getProjectsRegStr()+"\/([0-9])+"+"\/vms"+"$");
             var re2 = new RegExp("^"+this.getUsersRegStr()+"\/([0-9])+"+"\/vms"+"$");
             return re1.test(path) || re2.test(path);
+        },
+        isCorrectPath: function (path) {
+            console.log(this.isTenantsPath(path));
+            console.log(path);
+            return  this.isAccountPath(path) || this.isLocationsPath(path) || this.isTenantsPath(path) ||
+                    this.isMiqGroupsPath(path) || this.isProjectsPath(path) || this.isProjectsPath(path) ||
+                    this.isVMsPath(path) || this.isVMsPath(path) || this.isUsersPath(path);
         }
     }
 }
+    resourceApp.service('nodeServ',nodeServ);
+    nodeServ.$inject = ['$location'];
+    function nodeServ($location, $stateParams) {
+        this.findNodeByUrl = function () {
+            
+        }
+    }
 
     resourceApp.service('suiDataServ', suiDataServ);
     suiDataServ.$inject = ['$http'];
