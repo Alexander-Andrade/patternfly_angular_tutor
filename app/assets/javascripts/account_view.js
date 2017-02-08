@@ -5,31 +5,6 @@
     resourceApp.config(['$stateProvider','$urlRouterProvider','$qProvider', function ($stateProvider, $urlRouterProvider, $qProvider) {
         $qProvider.errorOnUnhandledRejections(false);
         $stateProvider
-            // .state('account',{
-            //     url:'/',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // })
-            // .state('account.locations',{
-            //     url:'locations',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // })
-            // .state('account.locations.location',{
-            //     url:'/{locationId}',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // })
-            // .state('account.locations.location.tenants',{
-            //     url:'/{tenantPath: [a-zA-Z0-9/]*}',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // });
-            // .state('home',{
-            //     url:'/',
-            //     templateUrl:'test.html',
-            //     controller: 'accountCtrl'
-            // })
             .state('error', {
                 url:'/error',
                 templateUrl:'404.html'
@@ -47,10 +22,7 @@
                     var url = $location.absUrl();
 
                     if(!(urlHelper.isCorrectPath(url))){
-                        console.log("error");
-                        // $state.go('error');
-                    }else{
-                        console.log("norm");
+                        $state.go('error');
                     }
                 }]
             });
@@ -59,6 +31,8 @@
 resourceApp.service('urlHelper', urlHelper);
 urlHelper.$inject = ['$location'];
 function urlHelper($location) {
+    var self = this;
+    self.numRegStr = "\/([0-9])+";
     return {
         getBaseUrl: function () {
             var absUrl = $location.absUrl();
@@ -90,7 +64,6 @@ function urlHelper($location) {
         },
         isTenantsPath: function(path){
             var re = new RegExp("^"+this.getTenantsRegStr()+"$");
-            console.log(re);
             return re.test(path)
         },
         isMiqGroupsPath: function(path){
@@ -111,11 +84,9 @@ function urlHelper($location) {
             return re1.test(path) || re2.test(path);
         },
         isCorrectPath: function (path) {
-            console.log(this.isTenantsPath(path));
-            console.log(path);
             return  this.isAccountPath(path) || this.isLocationsPath(path) || this.isTenantsPath(path) ||
-                    this.isMiqGroupsPath(path) || this.isProjectsPath(path) || this.isProjectsPath(path) ||
-                    this.isVMsPath(path) || this.isVMsPath(path) || this.isUsersPath(path);
+                    this.isMiqGroupsPath(path) || this.isProjectsPath(path)||
+                    this.isVMsPath(path) || this.isUsersPath(path);
         }
     }
 }
