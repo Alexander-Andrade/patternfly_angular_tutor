@@ -10,15 +10,15 @@
                 templateUrl:'404.html'
             })
             .state('account',{
-                url:'/account{path:.*}',
+                url:'/mytenant{path:.*}',
                 templateUrl:'test.html',
                 controller: 'accountCtrl',
                 resolve:{
-                    suiData:['suiDataServ' ,function (suiDataServ) {
-                        return suiDataServ.getPromise();
+                    rootNode:['rootNodeServ' ,function (rootNodeServ) {
+                        return rootNodeServ.getPromise();
                     }]
                 },
-                onEnter: ['$state','$stateParams','suiData','urlHelper','$location', function($state, $stateParams, suiData, urlHelper, $location){
+                onEnter: ['$state','urlHelper','$location', function($state, urlHelper, $location){
                     var url = $location.absUrl();
 
                     if(!(urlHelper.isCorrectPath(url))){
@@ -39,7 +39,7 @@ function urlHelper($location) {
             return absUrl.split('#')[0] + '#!';
         },
         accountPath: function () {
-            return this.getBaseUrl() + '/account';
+            return this.getBaseUrl() + '/mytenant';
         },
         locationsPath: function () {
             return this.accountPath()+'/locations';
@@ -90,26 +90,16 @@ function urlHelper($location) {
         }
     }
 }
-    resourceApp.service('nodeServ',nodeServ);
-    nodeServ.$inject = ['$location'];
-    function nodeServ($location, $stateParams) {
-        this.findNodeByUrl = function () {
-            
-        }
-    }
 
-    resourceApp.service('suiDataServ', suiDataServ);
-    suiDataServ.$inject = ['$http'];
-    function suiDataServ($http) {
-        //singleton (json only one time)
+    resourceApp.service('rootNodeServ', rootNodeServ);
+    rootNodeServ.$inject = ['$http'];
+    function rootNodeServ($http) {
+        //singleton (get json only one time)
         this.promise = null;
 
         function makeRequest() {
             // $http returns a promise, which has a then function, which also returns a promise
             return $http.get('sui_account_mgmt_example.json').then(function (response) {
-                // The then function here is an opportunity to modify the response
-                // console.log(response);
-                // The return value gets picked up by the then in the controller.
                 return response.data;
             });
         }
@@ -123,9 +113,31 @@ function urlHelper($location) {
     }
 
     resourceApp.controller('accountCtrl', accountCtrl);
-    accountCtrl.$inject = ['$scope', 'suiData', '$state', '$stateParams'];
-    function accountCtrl($scope, suiData, $state, $stateParams) {
-        $scope.data = suiData.node;
+    accountCtrl.$inject = ['$scope', '$stateParams','rootNode'];
+    function accountCtrl($scope, $stateParams,rootNode) {
+
+        function findDataByPath(rootNode){
+            var paramArgs = $stateParams.path.split('/').slice(1);
+            // var curNode = rootNode;
+            var node = rootNode;
+            var children = [rootNode];
+
+            var len = paramArgs.length;
+            for(var i=0; i<len; i++){
+                //if number
+                if(!isNaN(paramArgs[i])){
+                    node = children[(+paramArgs[i])-1];
+                }
+                else{
+                    children = node.children.filter(function (child) {
+                        return paramArgs[i].startsWith(child.type.toLowerCase());
+                    });
+                }
+            }
+            return children;
+        }
+        $scope.data = findDataByPath(rootNode);
+        console.log($scope.data);
     }
 
 // })();
