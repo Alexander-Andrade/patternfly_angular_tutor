@@ -443,6 +443,7 @@
                       ],
                       "children": [
                         {
+                          "id": 1,
                           "name": "VM 3",
                           "type": "VM",
                           "billing": {

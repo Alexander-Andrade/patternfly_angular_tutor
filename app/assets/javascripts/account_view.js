@@ -10,7 +10,7 @@
                 templateUrl:'404.html'
             })
             .state('account',{
-                url:'/mytenant{path:.*}',
+                url:'/myaccount{path:.*}',
                 templateUrl:'_resource_view.html',
                 controller: 'accountCtrl',
                 resolve:{
@@ -39,7 +39,7 @@ function urlHelper($location) {
             return absUrl.split('#')[0] + '#!';
         },
         accountPath: function () {
-            return this.getBaseUrl() + '/mytenant';
+            return this.getBaseUrl() + '/myaccount';
         },
         locationsPath: function () {
             return this.accountPath()+'/locations';
@@ -50,9 +50,9 @@ function urlHelper($location) {
         getMiqGroupsRegStr: function () {
             return this.getTenantsRegStr()+"\/([0-9])+"+"\/miqgroups";
         },
-        getProjectsRegStr: function () {
-            return this.getTenantsRegStr()+"\/([0-9])+"+"\/projects";
-        },
+        // getProjectsRegStr: function () {
+        //     return this.getTenantsRegStr()+"\/([0-9])+"+"\/projects";
+        // },
         getUsersRegStr: function(){
             return this.getMiqGroupsRegStr()+"\/([0-9])+"+"\/users";
         },
@@ -70,22 +70,22 @@ function urlHelper($location) {
             var re = new RegExp("^"+this.getMiqGroupsRegStr()+"$");
             return re.test(path)
         },
-        isProjectsPath: function(path){
-            var re = new RegExp("^"+this.getProjectsRegStr()+"$");
-            return re.test(path)
-        },
+        // isProjectsPath: function(path){
+        //     var re = new RegExp("^"+this.getProjectsRegStr()+"$");
+        //     return re.test(path)
+        // },
         isUsersPath: function (path) {
             var re = new RegExp("^"+this.getUsersRegStr()+"$");
             return re.test(path)
         },
         isVMsPath: function (path) {
-            var re1 = new RegExp("^"+this.getProjectsRegStr()+"\/([0-9])+"+"\/vms"+"$");
+            // var re1 = new RegExp("^"+this.getProjectsRegStr()+"\/([0-9])+"+"\/vms"+"$");
             var re2 = new RegExp("^"+this.getUsersRegStr()+"\/([0-9])+"+"\/vms"+"$");
             return re1.test(path) || re2.test(path);
         },
         isCorrectPath: function (path) {
             return  this.isAccountPath(path) || this.isLocationsPath(path) || this.isTenantsPath(path) ||
-                    this.isMiqGroupsPath(path) || this.isProjectsPath(path)||
+                    this.isMiqGroupsPath(path) || /*this.isProjectsPath(path) ||*/
                     this.isVMsPath(path) || this.isUsersPath(path);
         }
     }
@@ -118,7 +118,7 @@ function urlHelper($location) {
 
         this.findDataByPath = function(rootNode){
             var paramArgs = $stateParams.path.split('/').slice(1);
-            // var curNode = rootNode;
+
             var node = rootNode;
             var children = [rootNode];
 
@@ -126,7 +126,10 @@ function urlHelper($location) {
             for(var i=0; i<len; i++){
                 //if number
                 if(!isNaN(paramArgs[i])){
-                    node = children[(+paramArgs[i])-1];
+                    //node = children[(+paramArgs[i])-1];
+                    node = children.find(function(elem, i, arr) {
+                        return elem.id===(+paramArgs[i]);
+                    });
                 }
                 else{
                     children = node.children.filter(function (child) {
@@ -138,11 +141,14 @@ function urlHelper($location) {
         };
 
         this.findChildrenTypes = function (node) {
-            var types = node.children.map(function (child) {
-                return child.type;
-            });
-            return Array.from(new Set(types));
-        }
+            if(node.hasOwnProperty('children')) {
+                var types = node.children.map(function (child) {
+                    return child.type;
+                });
+                return Array.from(new Set(types));
+            }
+            else{return []}
+        };
     }
 
     resourceApp.controller('accountCtrl', accountCtrl);
@@ -150,25 +156,28 @@ function urlHelper($location) {
     function accountCtrl($scope, $location,rootNode, nodesHelper) {
 
         $scope.data = nodesHelper.findDataByPath(rootNode);
-
-        $scope.nextUrls = function (id) {
-            var node = $scope.data[id-1];
-            var urls = [];
+        $scope.nextUrl = function (id) {
+            var node = $scope.data.find(function (elem, i, arr) {
+                return elem.id==id;
+            });
+            console.log(node);
+            // var urls = [];
+            var url = null;
             var childrenTypes = nodesHelper.findChildrenTypes(node);
 
             if(childrenTypes[0]=="location"){
-                urls[0]= $location.absUrl()+'/'+'locations';
+                url= $location.absUrl()+'/'+'locations';
             }
             else {
-
-                var len = childrenTypes.length;
-                for (var i = 0; i < len; i++) {
-                    urls[i] = $location.absUrl() + '/' + id + '/' + childrenTypes[i] + "s";
-                }
+                // var len = childrenTypes.length;
+                // for (var i = 0; i < len; i++) {
+                //     urls[i] = $location.absUrl() + '/' + id + '/' + childrenTypes[i] + "s";
+                // }
+                url = $location.absUrl() + '/' + id + '/' + childrenTypes[0] + "s";
             }
-            return urls;
-        }
-        console.log($scope.nextUrls(1));
+            return url;
+        };
+
     }
 
 
@@ -176,9 +185,9 @@ resourceApp.directive('resourcesCard', function() {
     return {
         templateUrl: '_resources_card.html',
         scope: {
-            id: '@',
+            ident: '@',
             title: '@',
-            price: '=',
+            billing: '=',
             progressBarsData: '=',
             nextUrl: '&'
         }

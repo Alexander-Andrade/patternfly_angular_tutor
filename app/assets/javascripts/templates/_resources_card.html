@@ -2,12 +2,12 @@
     <div class="card-pf-heading">
         <div class="row">
             <div class="col-xs-6">
-                <h1 class="card-pf-title">{{title}}</h1>
+                <a href="{{nextUrl({identifier:ident})}}"><h1 class="card-pf-title">{{title}}</h1></a>
             </div>
             <div class="col-xs-6 text-right">
                           <span class="card-pf-aggregate-status-notifications">
-                            <span class="card-pf-aggregate-status-notification "><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{price.current}}</span></span>
-                            <span class="card-pf-aggregate-status-notification"><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{price.next}}</span></span>
+                            <span class="card-pf-aggregate-status-notification "><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{billing.current.value}}</span></span>
+                            <span class="card-pf-aggregate-status-notification"><small class="h2"><span class="small glyphicon glyphicon-usd"></span></small><span class="h3">{{billing.prediction.value}}</span></span>
                           </span>
             </div>
         </div>

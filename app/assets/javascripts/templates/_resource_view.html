@@ -4,15 +4,15 @@
 
         <div ng-repeat="elem in data" class="row row-cards-pf" ng-if="$index % 2 == 0">
             <div ng-if="$last==$first" class="col-xs-6 col-md-offset-3">
-                <div resources-card ident="{{$index+1}}" next-urls="nextUrls(ident)" title="{{data[$index].name}}" price="data[$index].billing" progress-bars-data="data[$index].quotas"></div>
+                <div resources-card ident="{{data[$index].id}}" next-url="nextUrl(identifier)" title="{{data[$index].name}}" billing="data[$index].billing" progress-bars-data="data[$index].quotas"></div>
             </div>
             <div ng-if="!($last==$first)">
                 <div class="col-xs-6">
-                    <div resources-card ident="{{$index+1}}" next-urls="nextUrls(ident)" title="{{data[$index].name}}" price="data[$index].billing" progress-bars-data="data[$index].quotas"></div>
+                    <div resources-card ident="{{data[$index].id}}" next-url="nextUrl(identifier)" title="{{data[$index].name}}" billing="data[$index].billing" progress-bars-data="data[$index].quotas"></div>
                 </div>
                 <div ng-if="!$last">
                     <div class="col-xs-6">
-                        <div resources-card ident="{{$index+2}}" next-urls="nextUrls(ident)" title="{{data[$index+1].name}}" price="data[$index+1].billing" progress-bars-data="data[$index+1].quotas"></div>
+                        <div resources-card ident="{{data[$index+1].id}}" next-url="nextUrl(identifier)" title="{{data[$index+1].name}}" billing="data[$index+1].billing" progress-bars-data="data[$index+1].quotas"></div>
                     </div>
                 </div>
             </div>
