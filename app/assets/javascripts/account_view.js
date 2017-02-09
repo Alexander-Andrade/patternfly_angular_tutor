@@ -11,11 +11,11 @@
             })
             .state('account',{
                 url:'/mytenant{path:.*}',
-                templateUrl:'test.html',
+                templateUrl:'_resource_view.html',
                 controller: 'accountCtrl',
                 resolve:{
-                    rootNode:['rootNodeServ' ,function (rootNodeServ) {
-                        return rootNodeServ.getPromise();
+                    rootNode:['nodesServ' ,function (nodesServ) {
+                        return nodesServ.getPromise();
                     }]
                 },
                 onEnter: ['$state','urlHelper','$location', function($state, urlHelper, $location){
@@ -91,9 +91,9 @@ function urlHelper($location) {
     }
 }
 
-    resourceApp.service('rootNodeServ', rootNodeServ);
-    rootNodeServ.$inject = ['$http'];
-    function rootNodeServ($http) {
+    resourceApp.service('nodesServ', nodesServ);
+    nodesServ.$inject = ['$http'];
+    function nodesServ($http) {
         //singleton (get json only one time)
         this.promise = null;
 
@@ -112,11 +112,11 @@ function urlHelper($location) {
         }
     }
 
-    resourceApp.controller('accountCtrl', accountCtrl);
-    accountCtrl.$inject = ['$scope', '$stateParams','rootNode'];
-    function accountCtrl($scope, $stateParams,rootNode) {
+    resourceApp.service('nodesHelper', nodesHelper);
+    nodesHelper.$inject = ['$stateParams'];
+    function nodesHelper ($stateParams) {
 
-        function findDataByPath(rootNode){
+        this.findDataByPath = function(rootNode){
             var paramArgs = $stateParams.path.split('/').slice(1);
             // var curNode = rootNode;
             var node = rootNode;
@@ -135,9 +135,102 @@ function urlHelper($location) {
                 }
             }
             return children;
+        };
+
+        this.findChildrenTypes = function (node) {
+            var types = node.children.map(function (child) {
+                return child.type;
+            });
+            return Array.from(new Set(types));
         }
-        $scope.data = findDataByPath(rootNode);
-        console.log($scope.data);
     }
 
+    resourceApp.controller('accountCtrl', accountCtrl);
+    accountCtrl.$inject = ['$scope', '$location','rootNode', 'nodesHelper'];
+    function accountCtrl($scope, $location,rootNode, nodesHelper) {
+
+        $scope.data = nodesHelper.findDataByPath(rootNode);
+
+        $scope.nextUrls = function (id) {
+            var node = $scope.data[id-1];
+            var urls = [];
+            var childrenTypes = nodesHelper.findChildrenTypes(node);
+
+            if(childrenTypes[0]=="location"){
+                urls[0]= $location.absUrl()+'/'+'locations';
+            }
+            else {
+
+                var len = childrenTypes.length;
+                for (var i = 0; i < len; i++) {
+                    urls[i] = $location.absUrl() + '/' + id + '/' + childrenTypes[i] + "s";
+                }
+            }
+            return urls;
+        }
+        console.log($scope.nextUrls(1));
+    }
+
+
+resourceApp.directive('resourcesCard', function() {
+    return {
+        templateUrl: '_resources_card.html',
+        scope: {
+            id: '@',
+            title: '@',
+            price: '=',
+            progressBarsData: '=',
+            nextUrl: '&'
+        }
+    };
+});
+
+resourceApp.directive('resourceProgress', function() {
+    return {
+        templateUrl: '_resource_progress.html',
+        scope: {
+            icon: '@',
+            title: '@',
+            data: '=',
+            barColor1: '@',
+            barColor2: '@',
+            modalData: '='
+        }
+    }
+});
+
+resourceApp.directive('resourceModal', function() {
+    return {
+        templateUrl: '_resource_modal.html',
+        scope: {
+            data: '='
+        }
+    }
+});
+
+resourceApp.directive('resourceBreadcrumb', function() {
+    return {
+        templateUrl: '_resource_breadcrumb.html',
+        scope: {
+            list: '='
+        }
+    }
+});
+
+resourceApp.directive('linksKebab', function(){
+    return {
+        templateUrl: '_kebab.html',
+        scope: {
+            links: '='
+        }
+    }
+});
+
+$('.resource-modal').on('shown.bs.modal', function() {
+    $('#myInput').focus()
+});
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
 // })();

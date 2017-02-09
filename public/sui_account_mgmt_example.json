@@ -1,4 +1,5 @@
 {
+  "id": 1,
   "name": "Tenant My Company access",
   "type": "tenant",
   "billing": {
@@ -42,6 +43,7 @@
   ],
   "children": [
     {
+      "id": 1,
       "name": "Location 1",
       "type": "location",
       "billing": {
@@ -85,6 +87,7 @@
       ],
       "children": [
         {
+          "id": 1,
           "name": "Subtenant 1",
           "type": "tenant",
           "billing": {
@@ -128,6 +131,7 @@
           ],
           "children": [
             {
+              "id": 1,
               "name": "SubSubtenant 1",
               "type": "tenant",
               "billing": {
@@ -171,6 +175,7 @@
               ],
               "children": [
                 {
+                  "id": 1,
                   "name": "SubSubSubtenant 1",
                   "type": "tenant",
                   "billing": {
@@ -214,6 +219,7 @@
                   ],
                   "children": [
                     {
+                      "id": 1,
                       "name": "Miq Group 1",
                       "type": "MiqGroup",
                       "billing": {
@@ -257,6 +263,7 @@
                       ],
                       "children": [
                         {
+                          "id": 1,
                           "name": "User 1",
                           "type": "user",
                           "billing": {
@@ -300,6 +307,7 @@
                           ],
                           "children": [
                             {
+                              "id": 1,
                               "name": "VM 1",
                               "type": "vm",
                               "billing": {
@@ -343,6 +351,7 @@
                               ]
                             },
                             {
+                              "id": 2,
                               "name": "VM 2",
                               "type": "vm",
                               "billing": {
@@ -390,6 +399,7 @@
                       ]
                     },
                     {
+                      "id": 2,
                       "name": "Project 1",
                       "type": "project",
                       "billing": {
@@ -480,6 +490,7 @@
                   ]
                 },
                 {
+                  "id": 2,
                   "name": "SubSubSubtenant 2",
                   "type": "tenant",
                   "billing": {
@@ -660,6 +671,7 @@
           ]
         },
         {
+          "id": 2,
           "name": "Subtenant 2",
           "type": "tenant",
           "billing": {
@@ -705,6 +717,7 @@
       ]
     },
     {
+      "id": 2,
       "name": "Location 2",
       "type": "location",
       "billing": {
