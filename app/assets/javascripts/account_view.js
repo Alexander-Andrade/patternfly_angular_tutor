@@ -48,7 +48,7 @@ function urlHelper($location) {
             return this.locationsRegStr()+"\/([0-9])+";
         },
         tenantRegStr: function () {
-            return this.locationRegStr()+"(\/tenants\/([0-9])+)+";
+            return this.locationRegStr()+"(\/tenants\/([0-9])+)*";
         },
         miqGroupRegStr: function () {
             return this.tenantRegStr()+"\/miqgroups"+"\/([0-9])+";
@@ -93,12 +93,6 @@ function urlHelper($location) {
             return viaProjectPath.test(path) || viaUsersPath.test(path);
         },
         isCorrectPath: function (path) {
-            console.log(this.isAccountPath(path));
-            console.log(this.isLocationsPath(path));
-            console.log(this.isLocationPath(path));
-            console.log(this.isTenantPath(path));
-            console.log(this.isUsersPath(path));
-            console.log(this.isServicesPath(path));
             return  this.isAccountPath(path) || this.isLocationsPath(path) || this.isLocationPath(path) || this.isTenantPath(path) ||
                     this.isUsersPath(path) || this.isServicesPath(path);
         }
@@ -138,30 +132,16 @@ function urlHelper($location) {
 
             var len = paramArgs.length;
             for(var i=0; i<len; i++){
-                console.log("bunch");
-                console.log(node);
-                console.log(children);
                 //if number
                 if(!isNaN(paramArgs[i])){
                     node = children.find(function(elem, ind, arr) {
-                        console.log("elem id");
-                        console.log(elem.id);
-                        console.log("param id");
-                        console.log(+paramArgs[i]);
                         return elem.id==(+paramArgs[i]);
                     });
-                    console.log("node");
-                    console.log(node);
+                    children = node.children;
                 }
                 else{
-                    children = node.children.filter(function (child) {
-                        return paramArgs[i].startsWith(child.type.toLowerCase());
-                    });
+                    children = node.children;
                 }
-                // console.log("node");
-                // console.log(node);
-                // console.log("children");
-                // console.log(children);
             }
             return children;
         };
