@@ -153,23 +153,13 @@ function urlHelper($location) {
             }
             return children;
         };
-
-        this.findChildrenTypes = function (node) {
-            if(node.hasOwnProperty('children')) {
-                var types = node.children.map(function (child) {
-                    return child.type;
-                });
-                return Array.from(new Set(types));
-            }
-            else{return []}
-        };
     }
 
     resourceApp.controller('accountCtrl', accountCtrl);
     accountCtrl.$inject = ['$scope', '$location','rootNode', 'nodesHelper', 'urlHelper'];
     function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
-
         $scope.data = nodesHelper.findDataByPath(rootNode);
+        console.log($scope.data);
         $scope.nextUrl = function (node) {
             var path = $location.absUrl();
 
@@ -180,6 +170,7 @@ function urlHelper($location) {
                 return path+'/'+node.id;
             }
             if(urlHelper.isLocationPath(path) || urlHelper.isTenantPath(path)){
+                // console.log(node);
                 switch(node.type){
                     case "tenant":
                         return path+'/'+node.id;
@@ -195,7 +186,6 @@ function urlHelper($location) {
             if(urlHelper.isServicesPath(path)){
                 return path;
             }
-            return nextUrl;
         };
     }
 
