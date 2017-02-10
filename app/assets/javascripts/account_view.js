@@ -159,7 +159,8 @@ function urlHelper($location) {
     accountCtrl.$inject = ['$scope', '$location','rootNode', 'nodesHelper', 'urlHelper'];
     function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
         $scope.data = nodesHelper.findDataByPath(rootNode);
-        console.log($scope.data);
+        $scope.types = getTypes($scope.data);
+        console.log($scope.types);
         $scope.nextUrl = function (node) {
             var path = $location.absUrl();
 
@@ -187,6 +188,12 @@ function urlHelper($location) {
                 return path;
             }
         };
+        function getTypes(data){
+            var types = data.map(function (el) {
+                return el.type;
+            });
+            return Array.from(new Set(types));
+        }
     }
 
 
