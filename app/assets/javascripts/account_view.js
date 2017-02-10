@@ -38,14 +38,14 @@ function urlHelper($location) {
             var absUrl = $location.absUrl();
             return absUrl.split('#')[0] + '#!';
         },
-        accountRegStr: function () {
+        accountPath: function () {
             return this.getBaseUrl() + '\/myaccount';
         },
-        locationsRegStr: function () {
-            return this.accountRegStr()+'\/locations';
+        locationsPath: function () {
+            return this.accountPath()+'\/locations';
         },
         locationRegStr: function () {
-            return this.locationsRegStr()+"\/([0-9])+";
+            return this.locationsPath()+"\/([0-9])+";
         },
         tenantRegStr: function () {
             return this.locationRegStr()+"(\/tenants\/([0-9])+)*";
@@ -60,12 +60,10 @@ function urlHelper($location) {
             return this.miqGroupRegStr()+"\/users";
         },
         isAccountPath: function (path) {
-            var re = new RegExp("^"+this.accountRegStr()+"$");
-            return re.test(path);
+            return this.accountPath() == path;
         },
         isLocationsPath: function(path){
-            var re = new RegExp("^"+this.locationsRegStr()+"$");
-            return re.test(path);
+            return this.locationsPath() == path;
         },
         isLocationPath: function (path) {
             var re = new RegExp("^"+this.locationRegStr()+"$");
@@ -91,6 +89,14 @@ function urlHelper($location) {
             var viaProjectPath = new RegExp("^"+this.projectRegStr()+"\/services"+"$");
             var viaUsersPath = new RegExp("^"+this.usersRegStr()+"\/([0-9])+"+"\/services"+"$");
             return viaProjectPath.test(path) || viaUsersPath.test(path);
+        },
+        isServicesViaProjectPath: function (path) {
+            var viaProjectPath = new RegExp("^"+this.projectRegStr()+"\/services"+"$");
+            return viaProjectPath.test(path)
+        },
+        isServicesViaUsersPath: function (path) {
+            var viaUsersPath = new RegExp("^"+this.usersRegStr()+"\/([0-9])+"+"\/services"+"$");
+            return viaUsersPath.test(path)
         },
         isCorrectPath: function (path) {
             return  this.isAccountPath(path) || this.isLocationsPath(path) || this.isLocationPath(path) || this.isTenantPath(path) ||
@@ -140,7 +146,9 @@ function urlHelper($location) {
                     children = node.children;
                 }
                 else{
-                    children = node.children;
+                    children = node.children.filter(function (child) {
+                        return paramArgs[i].startsWith(child.type.toLowerCase());
+                    });
                 }
             }
             return children;
@@ -162,31 +170,32 @@ function urlHelper($location) {
     function accountCtrl($scope, $location,rootNode, nodesHelper) {
 
         $scope.data = nodesHelper.findDataByPath(rootNode);
-        $scope.nextUrl = function (id) {
-            var node = $scope.data.find(function (elem, i, arr) {
-                return elem.id==id;
-            });
-            // var urls = [];
-            var url = null;
-            var childrenTypes = nodesHelper.findChildrenTypes(node);
 
-            if(childrenTypes[0]=="location"){
-                url= $location.absUrl()+'/'+'locations';
+        $scope.nextUrl = function (node) {
+            var path = $location.absUrl();
+            if(nodesHelper.isAccountPath(path)){
+                return nodesHelper.locationsPath();
             }
-            else {
-                // var len = childrenTypes.length;
-                // for (var i = 0; i < len; i++) {
-                //     urls[i] = $location.absUrl() + '/' + id + '/' + childrenTypes[i] + "s";
-                // }
-                if(typeof childrenTypes !== 'undefined' && childrenTypes.length > 0) {
-                    url = $location.absUrl() + '/' + id + '/' + childrenTypes[0] + "s";
-                }else{
-                    url = $location.absUrl();
+            if(nodesHelper.isLocationsPath(path)){
+                return path+'/'+node.id;
+            }
+            if(nodesHelper.isLocationPath(path) || nodesHelper.isTenantPath(path)){
+                switch(node.type){
+                    case "tenant":
+                        return path+'/'+node.id;
+                    case "miqgroup":
+                        return path+'/miqgroups'+'/'+node.id+'/users';
+                    case "project":
+                        return path+'/project'+'/'+node.id+'services';
                 }
             }
-            return url;
+            if(nodesHelper.isUsersPath(path)){
+                return path+'/'+node.id+'/services';
+            }
+            if(nodesHelper.isServicesPath(path)){
+                return path;
+            }
         };
-
     }
 
 
@@ -194,7 +203,7 @@ resourceApp.directive('resourcesCard', function() {
     return {
         templateUrl: '_resources_card.html',
         scope: {
-            ident: '@',
+            node: '=',
             title: '@',
             billing: '=',
             progressBarsData: '=',
