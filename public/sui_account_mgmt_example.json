@@ -308,8 +308,8 @@
                           "children": [
                             {
                               "id": 1,
-                              "name": "VM 1",
-                              "type": "vm",
+                              "name": "Service 1",
+                              "type": "service",
                               "billing": {
                                 "current": {
                                   "value": 30,
@@ -352,8 +352,142 @@
                             },
                             {
                               "id": 2,
-                              "name": "VM 2",
-                              "type": "vm",
+                              "name": "Service 2",
+                              "type": "service",
+                              "billing": {
+                                "current": {
+                                  "value": 30,
+                                  "units": "usd"
+                                },
+                                "prediction": {
+                                  "value": 40,
+                                  "units": "usd"
+                                }
+                              },
+                              "quotas": [
+                                {
+                                  "type": "svm",
+                                  "total": {
+                                    "value": 200,
+                                    "units": ""
+                                  },
+                                  "reserved_pct": 80,
+                                  "used_pct": 60
+                                },
+                                {
+                                  "type": "storage",
+                                  "total": {
+                                    "value": 350,
+                                    "units": "Gb"
+                                  },
+                                  "reserved_pct": 30,
+                                  "used_pct": 15
+                                },
+                                {
+                                  "type": "time",
+                                  "total": {
+                                    "value": 20,
+                                    "units": "hours"
+                                  },
+                                  "reserved_pct": 99,
+                                  "used_pct": 80
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": 2,
+                          "name": "User 2",
+                          "type": "user",
+                          "billing": {
+                            "current": {
+                              "value": 30,
+                              "units": "usd"
+                            },
+                            "prediction": {
+                              "value": 40,
+                              "units": "usd"
+                            }
+                          },
+                          "quotas": [
+                            {
+                              "type": "svm",
+                              "total": {
+                                "value": 200,
+                                "units": ""
+                              },
+                              "reserved_pct": 80,
+                              "used_pct": 60
+                            },
+                            {
+                              "type": "storage",
+                              "total": {
+                                "value": 350,
+                                "units": "Gb"
+                              },
+                              "reserved_pct": 30,
+                              "used_pct": 15
+                            },
+                            {
+                              "type": "time",
+                              "total": {
+                                "value": 20,
+                                "units": "hours"
+                              },
+                              "reserved_pct": 99,
+                              "used_pct": 80
+                            }
+                          ],
+                          "children": [
+                            {
+                              "id": 1,
+                              "name": "Service 4",
+                              "type": "service",
+                              "billing": {
+                                "current": {
+                                  "value": 30,
+                                  "units": "usd"
+                                },
+                                "prediction": {
+                                  "value": 40,
+                                  "units": "usd"
+                                }
+                              },
+                              "quotas": [
+                                {
+                                  "type": "svm",
+                                  "total": {
+                                    "value": 200,
+                                    "units": ""
+                                  },
+                                  "reserved_pct": 80,
+                                  "used_pct": 60
+                                },
+                                {
+                                  "type": "storage",
+                                  "total": {
+                                    "value": 350,
+                                    "units": "Gb"
+                                  },
+                                  "reserved_pct": 30,
+                                  "used_pct": 15
+                                },
+                                {
+                                  "type": "time",
+                                  "total": {
+                                    "value": 20,
+                                    "units": "hours"
+                                  },
+                                  "reserved_pct": 99,
+                                  "used_pct": 80
+                                }
+                              ]
+                            },
+                            {
+                              "id": 2,
+                              "name": "Service 5",
+                              "type": "service",
                               "billing": {
                                 "current": {
                                   "value": 30,
@@ -444,8 +578,52 @@
                       "children": [
                         {
                           "id": 1,
-                          "name": "VM 3",
-                          "type": "VM",
+                          "name": "Service 12",
+                          "type": "service",
+                          "billing": {
+                            "current": {
+                              "value": 30,
+                              "units": "usd"
+                            },
+                            "prediction": {
+                              "value": 40,
+                              "units": "usd"
+                            }
+                          },
+                          "quotas": [
+                            {
+                              "type": "svm",
+                              "total": {
+                                "value": 200,
+                                "units": ""
+                              },
+                              "reserved_pct": 80,
+                              "used_pct": 60
+                            },
+                            {
+                              "type": "storage",
+                              "total": {
+                                "value": 350,
+                                "units": "Gb"
+                              },
+                              "reserved_pct": 30,
+                              "used_pct": 15
+                            },
+                            {
+                              "type": "time",
+                              "total": {
+                                "value": 20,
+                                "units": "hours"
+                              },
+                              "reserved_pct": 99,
+                              "used_pct": 80
+                            }
+                          ]
+                        },
+                        {
+                          "id": 2,
+                          "name": "Service 15",
+                          "type": "service",
                           "billing": {
                             "current": {
                               "value": 30,
@@ -535,6 +713,7 @@
                   ],
                   "children": [
                     {
+                      "id": 1,
                       "name": "Project 3",
                       "type": "project",
                       "billing": {
@@ -578,8 +757,9 @@
                       ],
                       "children": [
                         {
-                          "name": "VM 5",
-                          "type": "vm",
+                          "id": 1,
+                          "name": "Service 14",
+                          "type": "service",
                           "billing": {
                             "current": {
                               "value": 30,
@@ -621,8 +801,9 @@
                           ]
                         },
                         {
-                          "name": "VM 6",
-                          "type": "vm",
+                          "id": 2,
+                          "name": "Service 16",
+                          "type": "service",
                           "billing": {
                             "current": {
                               "value": 30,
@@ -668,6 +849,362 @@
                   ]
                 }
               ]
+            },
+            {
+              "id": 1,
+              "name": "Group 7",
+              "type": "miqGroup",
+              "billing": {
+                "current": {
+                  "value": 30,
+                  "units": "usd"
+                },
+                "prediction": {
+                  "value": 40,
+                  "units": "usd"
+                }
+              },
+              "quotas": [
+                {
+                  "type": "svm",
+                  "total": {
+                    "value": 200,
+                    "units": ""
+                  },
+                  "reserved_pct": 80,
+                  "used_pct": 60
+                },
+                {
+                  "type": "storage",
+                  "total": {
+                    "value": 350,
+                    "units": "Gb"
+                  },
+                  "reserved_pct": 30,
+                  "used_pct": 15
+                },
+                {
+                  "type": "time",
+                  "total": {
+                    "value": 20,
+                    "units": "hours"
+                  },
+                  "reserved_pct": 99,
+                  "used_pct": 80
+                }
+              ],
+              "children":[
+                {
+                  "id": 1,
+                  "name": "User 22",
+                  "type": "user",
+                  "billing": {
+                    "current": {
+                      "value": 30,
+                      "units": "usd"
+                    },
+                    "prediction": {
+                      "value": 40,
+                      "units": "usd"
+                    }
+                  },
+                  "quotas": [
+                    {
+                      "type": "svm",
+                      "total": {
+                        "value": 200,
+                        "units": ""
+                      },
+                      "reserved_pct": 80,
+                      "used_pct": 60
+                    },
+                    {
+                      "type": "storage",
+                      "total": {
+                        "value": 350,
+                        "units": "Gb"
+                      },
+                      "reserved_pct": 30,
+                      "used_pct": 15
+                    },
+                    {
+                      "type": "time",
+                      "total": {
+                        "value": 20,
+                        "units": "hours"
+                      },
+                      "reserved_pct": 99,
+                      "used_pct": 80
+                    }
+                  ],
+                  "children":[
+                    {
+                      "id": 1,
+                      "name": "Service 22",
+                      "type": "service",
+                      "billing": {
+                        "current": {
+                          "value": 30,
+                          "units": "usd"
+                        },
+                        "prediction": {
+                          "value": 40,
+                          "units": "usd"
+                        }
+                      },
+                      "quotas": [
+                        {
+                          "type": "svm",
+                          "total": {
+                            "value": 200,
+                            "units": ""
+                          },
+                          "reserved_pct": 80,
+                          "used_pct": 60
+                        },
+                        {
+                          "type": "storage",
+                          "total": {
+                            "value": 350,
+                            "units": "Gb"
+                          },
+                          "reserved_pct": 30,
+                          "used_pct": 15
+                        },
+                        {
+                          "type": "time",
+                          "total": {
+                            "value": 20,
+                            "units": "hours"
+                          },
+                          "reserved_pct": 99,
+                          "used_pct": 80
+                        }
+                      ]
+                    },
+                    {
+                      "id": 2,
+                      "name": "Service 25",
+                      "type": "service",
+                      "billing": {
+                        "current": {
+                          "value": 30,
+                          "units": "usd"
+                        },
+                        "prediction": {
+                          "value": 40,
+                          "units": "usd"
+                        }
+                      },
+                      "quotas": [
+                        {
+                          "type": "svm",
+                          "total": {
+                            "value": 200,
+                            "units": ""
+                          },
+                          "reserved_pct": 80,
+                          "used_pct": 60
+                        },
+                        {
+                          "type": "storage",
+                          "total": {
+                            "value": 350,
+                            "units": "Gb"
+                          },
+                          "reserved_pct": 30,
+                          "used_pct": 15
+                        },
+                        {
+                          "type": "time",
+                          "total": {
+                            "value": 20,
+                            "units": "hours"
+                          },
+                          "reserved_pct": 99,
+                          "used_pct": 80
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "name": "User 23",
+                  "type": "user",
+                  "billing": {
+                    "current": {
+                      "value": 30,
+                      "units": "usd"
+                    },
+                    "prediction": {
+                      "value": 40,
+                      "units": "usd"
+                    }
+                  },
+                  "quotas": [
+                    {
+                      "type": "svm",
+                      "total": {
+                        "value": 200,
+                        "units": ""
+                      },
+                      "reserved_pct": 80,
+                      "used_pct": 60
+                    },
+                    {
+                      "type": "storage",
+                      "total": {
+                        "value": 350,
+                        "units": "Gb"
+                      },
+                      "reserved_pct": 30,
+                      "used_pct": 15
+                    },
+                    {
+                      "type": "time",
+                      "total": {
+                        "value": 20,
+                        "units": "hours"
+                      },
+                      "reserved_pct": 99,
+                      "used_pct": 80
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "Group 8",
+              "type": "miqGroup",
+              "billing": {
+                "current": {
+                  "value": 30,
+                  "units": "usd"
+                },
+                "prediction": {
+                  "value": 40,
+                  "units": "usd"
+                }
+              },
+              "quotas": [
+                {
+                  "type": "svm",
+                  "total": {
+                    "value": 200,
+                    "units": ""
+                  },
+                  "reserved_pct": 80,
+                  "used_pct": 60
+                },
+                {
+                  "type": "storage",
+                  "total": {
+                    "value": 350,
+                    "units": "Gb"
+                  },
+                  "reserved_pct": 30,
+                  "used_pct": 15
+                },
+                {
+                  "type": "time",
+                  "total": {
+                    "value": 20,
+                    "units": "hours"
+                  },
+                  "reserved_pct": 99,
+                  "used_pct": 80
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "name": "Project 9",
+              "type": "project",
+              "billing": {
+                "current": {
+                  "value": 30,
+                  "units": "usd"
+                },
+                "prediction": {
+                  "value": 40,
+                  "units": "usd"
+                }
+              },
+              "quotas": [
+                {
+                  "type": "svm",
+                  "total": {
+                    "value": 200,
+                    "units": ""
+                  },
+                  "reserved_pct": 80,
+                  "used_pct": 60
+                },
+                {
+                  "type": "storage",
+                  "total": {
+                    "value": 350,
+                    "units": "Gb"
+                  },
+                  "reserved_pct": 30,
+                  "used_pct": 15
+                },
+                {
+                  "type": "time",
+                  "total": {
+                    "value": 20,
+                    "units": "hours"
+                  },
+                  "reserved_pct": 99,
+                  "used_pct": 80
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "Project 10",
+              "type": "project",
+              "billing": {
+                "current": {
+                  "value": 30,
+                  "units": "usd"
+                },
+                "prediction": {
+                  "value": 40,
+                  "units": "usd"
+                }
+              },
+              "quotas": [
+                {
+                  "type": "svm",
+                  "total": {
+                    "value": 200,
+                    "units": ""
+                  },
+                  "reserved_pct": 80,
+                  "used_pct": 60
+                },
+                {
+                  "type": "storage",
+                  "total": {
+                    "value": 350,
+                    "units": "Gb"
+                  },
+                  "reserved_pct": 30,
+                  "used_pct": 15
+                },
+                {
+                  "type": "time",
+                  "total": {
+                    "value": 20,
+                    "units": "hours"
+                  },
+                  "reserved_pct": 99,
+                  "used_pct": 80
+                }
+              ]
             }
           ]
         },
@@ -675,6 +1212,182 @@
           "id": 2,
           "name": "Subtenant 2",
           "type": "tenant",
+          "billing": {
+            "current": {
+              "value": 30,
+              "units": "usd"
+            },
+            "prediction": {
+              "value": 40,
+              "units": "usd"
+            }
+          },
+          "quotas": [
+            {
+              "type": "svm",
+              "total": {
+                "value": 200,
+                "units": ""
+              },
+              "reserved_pct": 80,
+              "used_pct": 60
+            },
+            {
+              "type": "storage",
+              "total": {
+                "value": 350,
+                "units": "Gb"
+              },
+              "reserved_pct": 30,
+              "used_pct": 15
+            },
+            {
+              "type": "time",
+              "total": {
+                "value": 20,
+                "units": "hours"
+              },
+              "reserved_pct": 99,
+              "used_pct": 80
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Group 1",
+          "type": "miqGroup",
+          "billing": {
+            "current": {
+              "value": 30,
+              "units": "usd"
+            },
+            "prediction": {
+              "value": 40,
+              "units": "usd"
+            }
+          },
+          "quotas": [
+            {
+              "type": "svm",
+              "total": {
+                "value": 200,
+                "units": ""
+              },
+              "reserved_pct": 80,
+              "used_pct": 60
+            },
+            {
+              "type": "storage",
+              "total": {
+                "value": 350,
+                "units": "Gb"
+              },
+              "reserved_pct": 30,
+              "used_pct": 15
+            },
+            {
+              "type": "time",
+              "total": {
+                "value": 20,
+                "units": "hours"
+              },
+              "reserved_pct": 99,
+              "used_pct": 80
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Group 2",
+          "type": "miqGroup",
+          "billing": {
+            "current": {
+              "value": 30,
+              "units": "usd"
+            },
+            "prediction": {
+              "value": 40,
+              "units": "usd"
+            }
+          },
+          "quotas": [
+            {
+              "type": "svm",
+              "total": {
+                "value": 200,
+                "units": ""
+              },
+              "reserved_pct": 80,
+              "used_pct": 60
+            },
+            {
+              "type": "storage",
+              "total": {
+                "value": 350,
+                "units": "Gb"
+              },
+              "reserved_pct": 30,
+              "used_pct": 15
+            },
+            {
+              "type": "time",
+              "total": {
+                "value": 20,
+                "units": "hours"
+              },
+              "reserved_pct": 99,
+              "used_pct": 80
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Project 5",
+          "type": "project",
+          "billing": {
+            "current": {
+              "value": 30,
+              "units": "usd"
+            },
+            "prediction": {
+              "value": 40,
+              "units": "usd"
+            }
+          },
+          "quotas": [
+            {
+              "type": "svm",
+              "total": {
+                "value": 200,
+                "units": ""
+              },
+              "reserved_pct": 80,
+              "used_pct": 60
+            },
+            {
+              "type": "storage",
+              "total": {
+                "value": 350,
+                "units": "Gb"
+              },
+              "reserved_pct": 30,
+              "used_pct": 15
+            },
+            {
+              "type": "time",
+              "total": {
+                "value": 20,
+                "units": "hours"
+              },
+              "reserved_pct": 99,
+              "used_pct": 80
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Project 6",
+          "type": "project",
           "billing": {
             "current": {
               "value": 30,

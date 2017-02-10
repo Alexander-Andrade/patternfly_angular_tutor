@@ -38,55 +38,69 @@ function urlHelper($location) {
             var absUrl = $location.absUrl();
             return absUrl.split('#')[0] + '#!';
         },
-        accountPath: function () {
-            return this.getBaseUrl() + '/myaccount';
+        accountRegStr: function () {
+            return this.getBaseUrl() + '\/myaccount';
         },
-        locationsPath: function () {
-            return this.accountPath()+'/locations';
+        locationsRegStr: function () {
+            return this.accountRegStr()+'\/locations';
         },
-        getTenantsRegStr: function () {
-            return this.locationsPath()+"\/([0-9])+"+"\/tenants((\/([0-9])+\/tenants)?)+";
+        locationRegStr: function () {
+            return this.locationsRegStr()+"\/([0-9])+";
         },
-        getMiqGroupsRegStr: function () {
-            return this.getTenantsRegStr()+"\/([0-9])+"+"\/miqgroups";
+        tenantRegStr: function () {
+            return this.locationRegStr()+"(\/tenants\/([0-9])+)+";
         },
-        // getProjectsRegStr: function () {
-        //     return this.getTenantsRegStr()+"\/([0-9])+"+"\/projects";
-        // },
-        getUsersRegStr: function(){
-            return this.getMiqGroupsRegStr()+"\/([0-9])+"+"\/users";
+        miqGroupRegStr: function () {
+            return this.tenantRegStr()+"\/miqgroups"+"\/([0-9])+";
+        },
+        projectRegStr: function () {
+            return this.tenantRegStr()+"\/projects"+"\/([0-9])+";
+        },
+        usersRegStr: function(){
+            return this.miqGroupRegStr()+"\/users";
         },
         isAccountPath: function (path) {
-            return this.accountPath() == path;
+            var re = new RegExp("^"+this.accountRegStr()+"$");
+            return re.test(path);
         },
         isLocationsPath: function(path){
-            return this.locationsPath() == path;
+            var re = new RegExp("^"+this.locationsRegStr()+"$");
+            return re.test(path);
         },
-        isTenantsPath: function(path){
-            var re = new RegExp("^"+this.getTenantsRegStr()+"$");
+        isLocationPath: function (path) {
+            var re = new RegExp("^"+this.locationRegStr()+"$");
+            return re.test(path);
+        },
+        isTenantPath: function(path){
+            var re = new RegExp("^"+this.tenantRegStr()+"$");
             return re.test(path)
         },
-        isMiqGroupsPath: function(path){
-            var re = new RegExp("^"+this.getMiqGroupsRegStr()+"$");
+        isMiqGroupPath: function(path){
+            var re = new RegExp("^"+this.miqGroupRegStr()+"$");
             return re.test(path)
         },
-        // isProjectsPath: function(path){
-        //     var re = new RegExp("^"+this.getProjectsRegStr()+"$");
-        //     return re.test(path)
-        // },
+        isProjectPath: function(path){
+            var re = new RegExp("^"+this.projectRegStr()+"$");
+            return re.test(path)
+        },
         isUsersPath: function (path) {
-            var re = new RegExp("^"+this.getUsersRegStr()+"$");
+            var re = new RegExp("^"+this.usersRegStr()+"$");
             return re.test(path)
         },
-        isVMsPath: function (path) {
-            // var re1 = new RegExp("^"+this.getProjectsRegStr()+"\/([0-9])+"+"\/vms"+"$");
-            var re2 = new RegExp("^"+this.getUsersRegStr()+"\/([0-9])+"+"\/vms"+"$");
-            return re1.test(path) || re2.test(path);
+        isServicesPath: function (path) {
+            var viaProjectPath = new RegExp("^"+this.projectRegStr()+"\/services"+"$");
+            var viaUsersPath = new RegExp("^"+this.usersRegStr()+"\/([0-9])+"+"\/services"+"$");
+            return viaProjectPath.test(path) || viaUsersPath.test(path);
         },
         isCorrectPath: function (path) {
-            return  this.isAccountPath(path) || this.isLocationsPath(path) || this.isTenantsPath(path) ||
-                    this.isMiqGroupsPath(path) || /*this.isProjectsPath(path) ||*/
-                    this.isVMsPath(path) || this.isUsersPath(path);
+            console.log(this.isAccountPath(path));
+            console.log(this.isLocationsPath(path));
+            console.log(this.isLocationPath(path));
+            console.log(this.isTenantPath(path));
+            console.log(this.isUsersPath(path));
+            console.log(this.isServicesPath(path));
+            return  this.isAccountPath(path) || this.isLocationsPath(path) || this.isLocationPath(path) || this.isTenantPath(path) ||
+                    this.isUsersPath(path) || this.isServicesPath(path);
         }
     }
 }
