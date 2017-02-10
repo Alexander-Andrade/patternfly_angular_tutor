@@ -166,20 +166,20 @@ function urlHelper($location) {
     }
 
     resourceApp.controller('accountCtrl', accountCtrl);
-    accountCtrl.$inject = ['$scope', '$location','rootNode', 'nodesHelper'];
-    function accountCtrl($scope, $location,rootNode, nodesHelper) {
+    accountCtrl.$inject = ['$scope', '$location','rootNode', 'nodesHelper', 'urlHelper'];
+    function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
 
         $scope.data = nodesHelper.findDataByPath(rootNode);
-
         $scope.nextUrl = function (node) {
             var path = $location.absUrl();
-            if(nodesHelper.isAccountPath(path)){
-                return nodesHelper.locationsPath();
+
+            if(urlHelper.isAccountPath(path)){
+                return urlHelper.locationsPath();
             }
-            if(nodesHelper.isLocationsPath(path)){
+            if(urlHelper.isLocationsPath(path)){
                 return path+'/'+node.id;
             }
-            if(nodesHelper.isLocationPath(path) || nodesHelper.isTenantPath(path)){
+            if(urlHelper.isLocationPath(path) || urlHelper.isTenantPath(path)){
                 switch(node.type){
                     case "tenant":
                         return path+'/'+node.id;
@@ -189,12 +189,13 @@ function urlHelper($location) {
                         return path+'/project'+'/'+node.id+'services';
                 }
             }
-            if(nodesHelper.isUsersPath(path)){
+            if(urlHelper.isUsersPath(path)){
                 return path+'/'+node.id+'/services';
             }
-            if(nodesHelper.isServicesPath(path)){
+            if(urlHelper.isServicesPath(path)){
                 return path;
             }
+            return nextUrl;
         };
     }
 
