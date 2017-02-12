@@ -3,11 +3,13 @@
     <div class="container-fluid container-cards-pf">
 
         <div ng-repeat="curType in types">
-            <div ng-repeat="elem in data|nodeTypeFilter:curType" ng-class="{'row':$odd,'row-cards-pf':$odd}">
-                <div class="col-xs-6">
-                    <div resources-card node="elem" next-url="nextUrl(node)"></div>
+            <h3>{{curType}}s</h3>
+            <hr/>
+                <div ng-repeat="elem in data|nodeTypeFilter:curType" ng-class="{'row':$odd,'row-cards-pf':$odd}">
+                    <div class="col-xs-6">
+                        <div resources-card node="elem" next-url="nextUrl(node)"></div>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
