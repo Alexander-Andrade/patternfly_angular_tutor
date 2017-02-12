@@ -13,21 +13,23 @@ function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
             return urlHelper.locationsPath();
         }
         if(urlHelper.isLocationsPath(path)){
-            return path+'/'+node.id;
+            return ( typeof node.children != 'undefined' && node.children instanceof Array ) ? path+'/'+node.id : path;
         }
         if(urlHelper.isLocationPath(path) || urlHelper.isTenantPath(path)){
-            // console.log(node);
-            switch(node.type){
-                case "tenant":
-                    return path+'/tenants/'+node.id;
-                case "miqgroup":
-                    return path+'/miqgroups/'+node.id+'/users';
-                case "project":
-                    return path+'/project/'+node.id+'services';
+            if(typeof node.children != 'undefined' && node.children instanceof Array) {
+                switch (node.type) {
+                    case "tenant":
+                        return path + '/tenants/' + node.id;
+                    case "MiqGroup":
+                        return path + '/miqgroups/' + node.id + '/users';
+                    case "project":
+                        return path + '/projects/' + node.id + '/services';
+                }
             }
+            else{ return path;}
         }
         if(urlHelper.isUsersPath(path)){
-            return path+'/'+node.id+'/services';
+            return ( typeof node.children != 'undefined' && node.children instanceof Array ) ? path+'/'+node.id+'/services' : path;
         }
         if(urlHelper.isServicesPath(path)){
             return path;
