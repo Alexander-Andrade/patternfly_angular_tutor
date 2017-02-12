@@ -31,9 +31,9 @@ resourceApp.config(['$stateProvider','$urlRouterProvider','$qProvider', function
             onEnter: ['$state','urlHelper','$location', function($state, urlHelper, $location){
                 var url = $location.absUrl();
 
-                if(!(urlHelper.isCorrectPath(url))){
-                    $state.go('error');
-                }
+                // if(!(urlHelper.isCorrectPath(url))){
+                //     $state.go('error');
+                // }
             }]
         });
     // $urlRouterProvider.otherwise('account');

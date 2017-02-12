@@ -19,11 +19,11 @@ function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
             // console.log(node);
             switch(node.type){
                 case "tenant":
-                    return path+'/'+node.id;
+                    return path+'/tenants/'+node.id;
                 case "miqgroup":
-                    return path+'/miqgroups'+'/'+node.id+'/users';
+                    return path+'/miqgroups/'+node.id+'/users';
                 case "project":
-                    return path+'/project'+'/'+node.id+'services';
+                    return path+'/project/'+node.id+'services';
             }
         }
         if(urlHelper.isUsersPath(path)){
@@ -39,17 +39,6 @@ function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
         });
         return Array.from(new Set(types));
     }
-    
-    $scope.getDataByType = function (type) {
-        var elems = [];
 
-        for (var i = 0; i < $scope.data.length; i++) {
-            if ($scope.data[i].type == type) {
-                elems.push($scope.data[i]);
-            }
-        }
-
-        return elems;
-    }
 }
 

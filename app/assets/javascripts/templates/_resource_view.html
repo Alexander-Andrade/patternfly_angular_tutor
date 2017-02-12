@@ -2,7 +2,7 @@
 <div class="cards-pf">
     <div class="container-fluid container-cards-pf">
 
-        <div ng-repeat="curType in types">
+        <div ng-repeat="curType in types" class="row">
             <h3>{{curType}}s</h3>
             <hr/>
                 <div ng-repeat="elem in data|nodeTypeFilter:curType" ng-class="{'row':$odd,'row-cards-pf':$odd}">
