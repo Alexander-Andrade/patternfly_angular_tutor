@@ -17,10 +17,10 @@ function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
         }
         if(urlHelper.isLocationPath(path) || urlHelper.isTenantPath(path)){
             if(typeof node.children != 'undefined' && node.children instanceof Array) {
-                switch (node.type) {
+                switch (node.type.toLowerCase()) {
                     case "tenant":
                         return path + '/tenants/' + node.id;
-                    case "MiqGroup":
+                    case "miqgroup":
                         return path + '/miqgroups/' + node.id + '/users';
                     case "project":
                         return path + '/projects/' + node.id + '/services';
