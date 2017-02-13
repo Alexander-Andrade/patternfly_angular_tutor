@@ -133,7 +133,6 @@ function urlHelper($location) {
             var nodeIter = node;
 
             while(true) {
-                // console.log(list);
                 if(this.isAccountPath(path)){
                     list.unshift({url: path, name: 'Account'});
                     break;
@@ -141,7 +140,6 @@ function urlHelper($location) {
                 else if (this.isLocationsPath(path)) {
                     list.unshift({url: path, name: 'Locations'});
                     path = this.cutUptoAccountPath(path);
-                    console.log(path);
                 }
                 else if (this.isLocationPath(path)) {
                     list.unshift({url: path, name: nodeIter.name});
