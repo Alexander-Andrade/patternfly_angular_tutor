@@ -3,7 +3,7 @@ services = angular.module('services');
 services.service('urlHelper', urlHelper);
 urlHelper.$inject = ['$location'];
 function urlHelper($location) {
-
+    var self = this;
     return {
         getBaseUrl: function () {
             var absUrl = $location.absUrl();
@@ -73,16 +73,41 @@ function urlHelper($location) {
             return  this.isAccountPath(path) || this.isLocationsPath(path) || this.isLocationPath(path) || this.isTenantPath(path) ||
                 this.isUsersPath(path) || this.isServicesPath(path);
         },
+        cutUptoAccountPath: function (path) {
+            var re = new RegExp(this.accountPath());
+            return re.match(path);
+        },
+        cutUptoLocationsPath: function (path) {
+            var re = new RegExp(this.locationsPath());
+            return re.match(path);
+        },
+        cutUptoLocationPath: function (path) {
+            var re = new RegExp(this.locationRegStr());
+            return re.match(path);
+        },
+        cutUptoUsersPath: function (path) {
+            var re = new RegExp(this.usersRegStr());
+            return re.match(path);
+        },
+        cutUptoTenantPath: function (path) {
+            if(this.isTenantPath(path)){
+                var re = /\/tenants\/([0-9])$/;
+                return path.replace(re,'');
+            }else{
+                var re = new RegExp(this.tenantRegStr());
+                return re.match(path);
+            }
+        },
         nextUrl: function (node) {
             var path = $location.absUrl();
 
-            if(this.isAccountPath(path)){
-                return this.locationsPath();
+            if(self.isAccountPath(path)){
+                return urlHelper.locationsPath();
             }
-            if(this.isLocationsPath(path)){
+            if(self.isLocationsPath(path)){
                 return ( typeof node.children != 'undefined' && node.children instanceof Array ) ? path+'/'+node.id : path;
             }
-            if(this.isLocationPath(path) || this.isTenantPath(path)){
+            if(self.isLocationPath(path) || self.isTenantPath(path)){
                 if(typeof node.children != 'undefined' && node.children instanceof Array) {
                     switch (node.type.toLowerCase()) {
                         case "tenant":
@@ -95,22 +120,33 @@ function urlHelper($location) {
                 }
                 else{ return path;}
             }
-            if(this.isUsersPath(path)){
+            if(self.isUsersPath(path)){
                 return ( typeof node.children != 'undefined' && node.children instanceof Array ) ? path+'/'+node.id+'/services' : path;
             }
-            if(this.isServicesPath(path)){
+            if(self.isServicesPath(path)){
                 return path;
             }
         },
         breadcrumbList: function(node){
             var path = $location.absUrl();
             var list = [];
+            var nodeIter = node;
 
-            if(this.isAccountPath(path)){
-                list.push({url: path, name: node.name});
-            }
-            else if(this.isLocationsPath(path)){
-                list.push({url: this.accountPath(), name: node.name});
+            while(true) {
+                if(this.isAccountPath(path)){
+                    list.push({url: path, name: nodeIter.name});
+                    break;
+                }
+                else if (this.isLocationsPath(path)) {
+                    list.push({url: path, name: nodeIter.name});
+                }
+                else if (this.isLocationPath(path)) {
+                    list.push({url: this.accountPath(), name: node.parent.parent.name});
+                    list.push({url: this.locationsPath(), name: node.parent.name});
+                }
+                else if (this.isTenantPath(path)) {
+
+                }
             }
             return list;
         }
