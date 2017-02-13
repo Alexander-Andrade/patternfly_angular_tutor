@@ -75,19 +75,19 @@ function urlHelper($location) {
         },
         cutUptoAccountPath: function (path) {
             var re = new RegExp(this.accountPath());
-            return re.match(path);
+            return path.match(re)[0];
         },
         cutUptoLocationsPath: function (path) {
             var re = new RegExp(this.locationsPath());
-            return re.match(path);
+            return path.match(re)[0];
         },
         cutUptoLocationPath: function (path) {
             var re = new RegExp(this.locationRegStr());
-            return re.match(path);
+            return path.match(re)[0];
         },
         cutUptoUsersPath: function (path) {
             var re = new RegExp(this.usersRegStr());
-            return re.match(path);
+            return path.match(re)[0];
         },
         cutUptoTenantPath: function (path) {
             if(this.isTenantPath(path)){
@@ -95,7 +95,7 @@ function urlHelper($location) {
                 return path.replace(re,'');
             }else{
                 var re = new RegExp(this.tenantRegStr());
-                return re.match(path);
+                return path.match(re)[0];
             }
         },
         nextUrl: function (node) {
@@ -133,20 +133,37 @@ function urlHelper($location) {
             var nodeIter = node;
 
             while(true) {
+                // console.log(list);
                 if(this.isAccountPath(path)){
-                    list.push({url: path, name: nodeIter.name});
+                    list.unshift({url: path, name: 'Account'});
                     break;
                 }
                 else if (this.isLocationsPath(path)) {
-                    list.push({url: path, name: nodeIter.name});
+                    list.unshift({url: path, name: 'Locations'});
+                    path = this.cutUptoAccountPath(path);
+                    console.log(path);
                 }
                 else if (this.isLocationPath(path)) {
-                    list.push({url: this.accountPath(), name: node.parent.parent.name});
-                    list.push({url: this.locationsPath(), name: node.parent.name});
+                    list.unshift({url: path, name: nodeIter.name});
+                    path = this.cutUptoLocationsPath(path);
                 }
                 else if (this.isTenantPath(path)) {
-
+                    list.unshift({url: path, name: nodeIter.name});
+                    path = this.cutUptoTenantPath(path);
                 }
+                else if (this.isUsersPath(path)) {
+                    list.unshift({url: path, name: 'Users'});
+                    path = this.cutUptoTenantPath(path);
+                }
+                else if(this.isServicesViaProjectPath(path)){
+                    list.unshift({url: path, name: 'Services'});
+                    path = this.cutUptoTenantPath(path);
+                }
+                else if (this.isServicesViaUsersPath(path)){
+                    list.unshift({url: path, name: 'Services'});
+                    path = this.cutUptoUsersPath(path);
+                }
+                nodeIter = nodeIter.parent;
             }
             return list;
         }

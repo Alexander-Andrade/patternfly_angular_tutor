@@ -6,7 +6,7 @@ function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
     nodesHelper.setParentRelations(rootNode);
     $scope.data = nodesHelper.findDataByPath(rootNode);
     $scope.types = nodesHelper.getTypes($scope.data);
-
+    $scope.breadcrumbList = urlHelper.breadcrumbList($scope.data[0].parent);
     $scope.nextUrl = function (node) {
         var path = $location.absUrl();
 

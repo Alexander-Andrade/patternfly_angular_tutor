@@ -9,7 +9,6 @@ filters.filter('nodeTypeFilter', function() {
                 elems.push(input[i]);
             }
         }
-        console.log(elems);
         return elems;
     };
 });
