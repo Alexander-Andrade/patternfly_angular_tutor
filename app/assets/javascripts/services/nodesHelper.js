@@ -27,4 +27,21 @@ function nodesHelper ($stateParams) {
         }
         return children;
     };
+        
+    this.setParentRelations = function (node) {
+        if(typeof node.children != 'undefined' && node.children instanceof Array){
+            var len = node.children.length;
+            for(var i=0;i<len;i++){
+                node.children[i].parent = node;
+                this.setParentRelations(node.children[i]);
+            }
+        }
+    };
+    
+    this.getTypes = function(data){
+        var types = data.map(function (el) {
+            return el.type;
+        });
+        return Array.from(new Set(types));
+    }
 }

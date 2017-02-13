@@ -4,8 +4,8 @@ controllers.controller('accountCtrl', accountCtrl);
 accountCtrl.$inject = ['$scope', '$location','rootNode', 'nodesHelper', 'urlHelper'];
 function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
     $scope.data = nodesHelper.findDataByPath(rootNode);
-    $scope.types = getTypes($scope.data);
-    console.log($scope.types);
+    $scope.types = nodesHelper.getTypes($scope.data);
+    
     $scope.nextUrl = function (node) {
         var path = $location.absUrl();
 
@@ -35,12 +35,5 @@ function accountCtrl($scope, $location,rootNode, nodesHelper, urlHelper) {
             return path;
         }
     };
-    function getTypes(data){
-        var types = data.map(function (el) {
-            return el.type;
-        });
-        return Array.from(new Set(types));
-    }
-
 }
 

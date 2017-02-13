@@ -3,8 +3,7 @@ services = angular.module('services');
 services.service('urlHelper', urlHelper);
 urlHelper.$inject = ['$location'];
 function urlHelper($location) {
-    var self = this;
-    self.numRegStr = "\/([0-9])+";
+
     return {
         getBaseUrl: function () {
             var absUrl = $location.absUrl();
@@ -73,6 +72,47 @@ function urlHelper($location) {
         isCorrectPath: function (path) {
             return  this.isAccountPath(path) || this.isLocationsPath(path) || this.isLocationPath(path) || this.isTenantPath(path) ||
                 this.isUsersPath(path) || this.isServicesPath(path);
+        },
+        nextUrl: function (node) {
+            var path = $location.absUrl();
+
+            if(this.isAccountPath(path)){
+                return this.locationsPath();
+            }
+            if(this.isLocationsPath(path)){
+                return ( typeof node.children != 'undefined' && node.children instanceof Array ) ? path+'/'+node.id : path;
+            }
+            if(this.isLocationPath(path) || this.isTenantPath(path)){
+                if(typeof node.children != 'undefined' && node.children instanceof Array) {
+                    switch (node.type.toLowerCase()) {
+                        case "tenant":
+                            return path + '/tenants/' + node.id;
+                        case "miqgroup":
+                            return path + '/miqgroups/' + node.id + '/users';
+                        case "project":
+                            return path + '/projects/' + node.id + '/services';
+                    }
+                }
+                else{ return path;}
+            }
+            if(this.isUsersPath(path)){
+                return ( typeof node.children != 'undefined' && node.children instanceof Array ) ? path+'/'+node.id+'/services' : path;
+            }
+            if(this.isServicesPath(path)){
+                return path;
+            }
+        },
+        breadcrumbList: function(node){
+            var path = $location.absUrl();
+            var list = [];
+
+            if(this.isAccountPath(path)){
+                list.push({url: path, name: node.name});
+            }
+            else if(this.isLocationsPath(path)){
+                list.push({url: this.accountPath(), name: node.name});
+            }
+            return list;
         }
     }
 }
